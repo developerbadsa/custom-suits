@@ -1,844 +1,972 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>SUITSUPPLY – Custom Made</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Suitsupply - Custom Made</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:#f0f0f0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;color:#111827;-webkit-font-smoothing:antialiased}
-button,input{font:inherit;border:none;background:none;cursor:pointer}
-img{display:block}
-
-/* ─── TOP BAR ─── */
-.topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  background:#fff;padding:0 20px;height:56px;
-  border-bottom:1px solid #e5e7eb;
-  position:relative;z-index:10;
-}
-.topbar-left{display:flex;align-items:center;gap:10px}
-.topbar-center{position:absolute;left:50%;transform:translateX(-50%);font-size:15px;font-weight:800;letter-spacing:3px}
-.topbar-right{display:flex;align-items:center;gap:6px}
-.icon-btn{width:34px;height:34px;border-radius:50%;border:1px solid #e5e7eb;display:flex;align-items:center;justify-content:center;color:#374151;transition:border-color .15s}
-.icon-btn:hover{border-color:#9ca3af}
-.icon-btn svg{width:17px;height:17px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.finish-btn{
-  height:34px;padding:0 18px;border-radius:20px;font-size:13px;font-weight:600;
-  border:1px solid #d1d5db;color:#111827;transition:all .15s;
-  display:flex;align-items:center;gap:6px;margin-right:6px;
-}
-.finish-btn.dark{background:#111827;color:#fff;border-color:#111827}
-.finish-btn:hover{border-color:#9ca3af}
-.finish-btn.dark:hover{background:#1f2937}
-
-/* ─── PRICE DISPLAY (top-left below icons) ─── */
-.price-wrap{display:flex;flex-direction:column;line-height:1.2}
-.price-total{font-size:14px;font-weight:700}
-.price-delivery{font-size:12px;color:#6b7280;margin-top:1px}
-
-/* ─── SHELL ─── */
-.shell{display:flex;height:calc(100vh - 56px);overflow:hidden}
-
-/* ─── PREVIEW / STAGE ─── */
-.stage{
-  flex:1;position:relative;background:#f5f5f5;
-  display:flex;align-items:center;justify-content:center;
-  overflow:hidden;
-}
-.stage-bg{position:absolute;inset:0;background:#f0f0f0}
-.preview-wrap{
-  position:relative;display:flex;align-items:center;justify-content:center;
-  height:100%;width:100%;
-}
-.preview-img{
-  max-height:88%;max-width:70%;object-fit:contain;
-  filter:drop-shadow(0 8px 40px rgba(0,0,0,.15));
-  user-select:none;-webkit-user-drag:none;
-  transition:opacity .25s;
-}
-.preview-img.fading{opacity:0}
-
-/* nav arrows */
-.nav-arrow{
-  position:absolute;top:50%;transform:translateY(-50%);
-  width:38px;height:38px;border-radius:50%;
-  background:rgba(255,255,255,.9);border:1px solid #e0e0e0;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 2px 8px rgba(0,0,0,.08);
-  transition:opacity .2s;z-index:2;
-}
-.nav-arrow svg{width:16px;height:16px;stroke:#374151;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.nav-arrow.left{left:16px}
-.nav-arrow.right{right:16px}
-.nav-arrow[hidden]{display:none}
-
-/* dots */
-.dots-row{
-  position:absolute;bottom:18px;left:50%;transform:translateX(-50%);
-  display:flex;gap:8px;align-items:center;
-}
-.dot{width:7px;height:7px;border-radius:50%;background:rgba(0,0,0,.18);cursor:pointer;transition:background .2s}
-.dot.active{background:rgba(0,0,0,.65)}
-
-/* wearing thumbnail */
-.wearing-thumb{
-  position:absolute;bottom:12px;right:12px;
-  width:72px;height:84px;border-radius:10px;overflow:hidden;
-  background:#e8e8e8;border:1px solid rgba(0,0,0,.12);
-  cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,.15);
-  transition:transform .2s;
-}
-.wearing-thumb:hover{transform:scale(1.04)}
-.wearing-thumb img{width:100%;height:100%;object-fit:cover}
-
-/* spinner */
-.spinner-overlay{
-  position:absolute;top:16px;left:16px;
-  width:18px;height:18px;
-  border:2px solid rgba(0,0,0,.12);border-top-color:rgba(0,0,0,.45);
-  border-radius:50%;animation:spin .8s linear infinite;
-  display:none;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-.stage.loading .spinner-overlay{display:block}
-
-/* ─── SIDEBAR ─── */
-.sidebar{
-  width:310px;min-width:310px;
-  background:#fff;border-left:1px solid #e8e8e8;
-  display:flex;flex-direction:column;overflow:hidden;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-/* tabs */
-.tab-row{
-  display:flex;padding:12px 14px 0;gap:2px;
-  border-bottom:1px solid #f0f0f0;
+html,
+body {
+  height: 100%;
 }
-.tab{
-  padding:9px 14px;border-radius:20px;font-size:13.5px;font-weight:500;
-  color:#6b7280;border:1px solid transparent;
-  transition:all .15s;white-space:nowrap;
-}
-.tab.active{
-  background:#111827;color:#fff;border-color:#111827;font-weight:600;
-}
-.tab:not(.active):hover{background:#f3f4f6;color:#111827}
 
-/* search+filter row */
-.search-row{
-  display:flex;align-items:center;gap:8px;
-  padding:10px 12px;border-bottom:1px solid #f0f0f0;
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #1f1f1f;
+  background: #ececec;
 }
-.search-box{
-  flex:1;display:flex;align-items:center;gap:8px;
-  border:1px solid #e5e7eb;border-radius:20px;padding:7px 12px;
-  background:#fff;
-}
-.search-box svg{width:14px;height:14px;stroke:#9ca3af;stroke-width:2;fill:none;flex-shrink:0;stroke-linecap:round;stroke-linejoin:round}
-.search-box input{border:0;outline:0;font-size:13px;color:#374151;width:100%;background:transparent}
-.search-box input::placeholder{color:#9ca3af}
-.filter-btn-pill{
-  display:flex;align-items:center;gap:6px;
-  border:1px solid #e5e7eb;border-radius:20px;padding:7px 13px;
-  font-size:13px;color:#374151;white-space:nowrap;transition:border-color .15s;
-}
-.filter-btn-pill:hover{border-color:#9ca3af}
-.filter-btn-pill svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
-.filter-badge{
-  background:#111827;color:#fff;font-size:11px;font-weight:700;
-  width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;
-}
-.filter-badge[hidden]{display:none}
 
-/* fabric list */
-.fabric-list{overflow-y:auto;flex:1;padding:8px 10px 16px}
-.fabric-item{
-  display:grid;grid-template-columns:72px 1fr 22px;align-items:center;gap:12px;
-  padding:11px 10px 11px 10px;border-radius:14px;border:1.5px solid #ebebeb;
-  background:#fff;cursor:pointer;margin-bottom:8px;
-  transition:border-color .15s,box-shadow .15s;
+button,
+input {
+  font: inherit;
 }
-.fabric-item:hover{border-color:#c0c0c0}
-.fabric-item.selected{border-color:#111827;border-width:2px;box-shadow:0 2px 12px rgba(0,0,0,.08)}
-.swatch-img{
-  width:72px;height:72px;border-radius:10px;overflow:hidden;position:relative;
-  border:1px solid rgba(0,0,0,.08);background:#1a1a1a;flex-shrink:0;
-}
-.swatch-img img{width:100%;height:100%;object-fit:cover}
-.swatch-info-btn{
-  position:absolute;bottom:5px;left:5px;width:20px;height:20px;
-  border-radius:50%;background:rgba(255,255,255,.9);border:1px solid rgba(0,0,0,.15);
-  display:flex;align-items:center;justify-content:center;font-size:11px;color:#374151;font-style:italic;font-weight:600;
-}
-.fabric-meta{min-width:0}
-.fabric-name{font-size:13.5px;font-weight:600;line-height:1.3;color:#111827;margin-bottom:3px}
-.fabric-price{font-size:12.5px;color:#6b7280}
-.item-chev{color:#c0c0c0;font-size:18px;line-height:1;text-align:right}
 
-/* ─── JACKET / TROUSERS CONFIG ROWS ─── */
-.config-list{overflow-y:auto;flex:1;padding:10px 12px 16px}
-.style-card{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 14px;border-radius:14px;border:1px solid #ebebeb;
-  background:#fff;margin-bottom:10px;
+img {
+  display: block;
 }
-.style-left{display:flex;align-items:center;gap:10px}
-.style-icon{
-  width:36px;height:36px;border-radius:10px;background:#f3f4f6;
-  display:flex;align-items:center;justify-content:center;font-size:18px;
-}
-.style-label{font-size:11px;color:#9ca3af;font-weight:600;margin-bottom:2px}
-.style-name{font-size:14px;font-weight:700}
-.pencil-btn{
-  width:32px;height:32px;border-radius:50%;border:1px solid #e5e7eb;
-  display:flex;align-items:center;justify-content:center;
-}
-.pencil-btn svg{width:14px;height:14px;stroke:#374151;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.config-row{
-  display:grid;grid-template-columns:80px 1fr 18px;align-items:center;gap:12px;
-  padding:10px 12px;border-radius:14px;border:1px solid #ebebeb;
-  background:#fff;cursor:pointer;margin-bottom:8px;
-  transition:border-color .15s;
-}
-.config-row:hover{border-color:#c0c0c0}
-.config-thumb{width:80px;height:80px;border-radius:10px;overflow:hidden;background:#f3f4f6;border:1px solid #ebebeb;flex-shrink:0}
-.config-thumb img{width:100%;height:100%;object-fit:cover}
-.config-label{font-size:13px;font-weight:700;color:#111827;margin-bottom:3px}
-.config-val{font-size:12.5px;color:#6b7280;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.config-chev{color:#c0c0c0;font-size:16px;text-align:right}
 
-/* ─── FILTER PANEL ─── */
-.filter-overlay{
-  position:fixed;inset:0;background:rgba(0,0,0,.3);z-index:100;
-  display:none;
+.app-frame {
+  width: min(1540px, calc(100vw - 64px));
+  height: min(860px, calc(100vh - 64px));
+  margin: 32px auto;
+  background: #e6e6e6;
+  border: 1px solid #dfdfdf;
 }
-.filter-overlay.open{display:block}
-.filter-panel{
-  position:fixed;top:0;bottom:0;left:0;width:360px;max-width:100%;
-  background:#fff;z-index:101;
-  display:flex;flex-direction:column;overflow:hidden;
-  transform:translateX(-100%);transition:transform .25s ease;
-}
-.filter-overlay.open .filter-panel{transform:translateX(0)}
-.filter-head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:16px 18px;border-bottom:1px solid #f0f0f0;
-}
-.filter-title{font-size:16px;font-weight:700}
-.filter-actions{display:flex;align-items:center;gap:10px}
-.clear-all-btn{font-size:13px;color:#6b7280;padding:6px 10px;border-radius:8px;transition:background .15s}
-.clear-all-btn:hover{background:#f3f4f6;color:#111827}
-.close-btn{
-  width:32px;height:32px;border-radius:50%;border:1px solid #e5e7eb;
-  display:flex;align-items:center;justify-content:center;
-}
-.close-btn svg{width:14px;height:14px;stroke:#374151;stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.filter-body{overflow-y:auto;flex:1;padding:4px 0 16px}
 
-/* filter groups */
-.fgroup{border-bottom:1px solid #f3f4f6}
-.fgroup-head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:14px 18px;cursor:pointer;user-select:none;
-}
-.fgroup-head-label{font-size:14px;font-weight:700;color:#111827}
-.fgroup-toggle{font-size:18px;color:#6b7280;font-weight:300;line-height:1}
-.fgroup-body{padding:0 18px 14px}
-.fgroup.collapsed .fgroup-body{display:none}
 
-/* sort radios */
-.sort-opt{display:flex;align-items:center;gap:10px;padding:6px 2px;cursor:pointer}
-.sort-opt input{accent-color:#111827;width:16px;height:16px;cursor:pointer}
-.sort-opt span{font-size:13.5px;color:#374151}
 
-/* color swatches grid */
-.color-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;padding:4px 0}
-.color-swatch{display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none;padding:4px 2px}
-.color-swatch input{position:absolute;opacity:0;width:0;height:0}
-.color-dot{width:22px;height:22px;border-radius:5px;border:1px solid rgba(0,0,0,.12);flex-shrink:0}
-.color-name{font-size:13px;color:#374151}
 
-/* checkbox opts */
-.check-opt{display:flex;align-items:center;gap:10px;padding:6px 2px;cursor:pointer}
-.check-opt input{accent-color:#111827;width:15px;height:15px;cursor:pointer}
-.check-opt span{font-size:13.5px;color:#374151}
-.check-indent{padding-left:20px}
-.view-more-btn{font-size:12.5px;color:#6b7280;padding:4px 2px;display:flex;align-items:center;gap:4px;margin-top:2px}
-.view-more-btn:hover{color:#111827}
+.shell {
+  height: calc(100% - 40px);
+  display: flex;
+}
 
-/* ─── INFO DIALOG ─── */
-.info-dialog-wrap{
-  position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:200;
-  display:none;align-items:center;justify-content:center;
+.stage {
+  flex: 1;
+  background: #e2e2e2;
+  border-right: 1px solid #d7d7d7;
+  position: relative;
+  overflow: hidden;
 }
-.info-dialog-wrap.open{display:flex}
-.info-dialog{
-  background:#fff;border-radius:16px;padding:20px 22px 18px;
-  max-width:440px;width:calc(100% - 28px);
-  box-shadow:0 20px 60px rgba(0,0,0,.2);
-  border:1px solid rgba(0,0,0,.08);
-}
-.info-dialog h3{font-size:17px;font-weight:700;margin-bottom:8px}
-.info-dialog p{font-size:14px;color:#6b7280;line-height:1.6;margin-bottom:16px}
-.info-dialog-footer{display:flex;justify-content:flex-end}
-.dlg-close-btn{padding:9px 22px;border-radius:20px;border:1px solid #e5e7eb;font-size:13.5px;font-weight:600;color:#374151;transition:border-color .15s}
-.dlg-close-btn:hover{border-color:#9ca3af}
 
-/* ─── SUMMARY PAGE ─── */
-.summary-page{
-  flex:1;overflow-y:auto;background:#f5f5f5;
+.price-box {
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  z-index: 2;
+  line-height: 1.2;
 }
-.summary-inner{padding:24px 24px 40px;max-width:1100px;margin:0 auto}
-.summary-title{font-size:28px;font-weight:800;text-align:center;margin-bottom:24px;letter-spacing:-.3px}
-.summary-grid{display:grid;grid-template-columns:1fr 380px;gap:16px}
-.sum-preview{
-  background:#ebebeb;border-radius:20px;
-  display:flex;align-items:center;justify-content:center;
-  min-height:500px;position:relative;overflow:hidden;
-}
-.sum-preview img{max-height:90%;max-width:80%;object-fit:contain;filter:drop-shadow(0 8px 30px rgba(0,0,0,.15))}
-.sum-panel{
-  background:#fff;border:1px solid #ebebeb;border-radius:20px;
-  padding:18px;display:flex;flex-direction:column;
-}
-.sum-section-head{
-  display:flex;align-items:center;justify-content:space-between;
-  padding-bottom:12px;border-bottom:1px solid #f0f0f0;margin-bottom:12px;
-}
-.sum-section-head h3{font-size:15px;font-weight:800}
-.sum-items{display:flex;flex-direction:column;gap:8px;flex:1}
-.sum-item{
-  display:grid;grid-template-columns:54px 1fr;gap:10px;align-items:center;
-  padding:10px;border-radius:12px;background:#fafafa;border:1px solid #f0f0f0;
-}
-.sum-item-thumb{width:54px;height:54px;border-radius:10px;overflow:hidden;background:#e8e8e8;border:1px solid #ebebeb;flex-shrink:0}
-.sum-item-thumb img{width:100%;height:100%;object-fit:cover}
-.sum-item-label{font-size:13px;font-weight:700;margin-bottom:2px}
-.sum-item-val{font-size:12px;color:#6b7280}
-.sum-footer{
-  border-top:1px solid #f0f0f0;margin-top:14px;padding-top:14px;
-  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
-}
-.sum-totals{display:flex;gap:28px}
-.sum-total-block .k{font-size:11px;color:#9ca3af;font-weight:600;margin-bottom:2px}
-.sum-total-block .v{font-size:16px;font-weight:800}
-.sum-actions{display:flex;align-items:center;gap:8px}
-.btn-outline{padding:10px 18px;border-radius:10px;border:1px solid #d1d5db;font-size:13.5px;font-weight:600;color:#374151;transition:border-color .15s}
-.btn-outline:hover{border-color:#9ca3af}
-.btn-dark{padding:10px 20px;border-radius:10px;background:#111827;color:#fff;font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:6px}
-.btn-dark svg{width:14px;height:14px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
 
-/* fabric swatch canvas texture */
-.swatch-canvas{width:100%;height:100%;display:block}
+.price-total {
+  font-size: 15px;
+  font-weight: 700;
+}
 
-@media(max-width:900px){
-  .sidebar{width:100%;min-width:0}
-  .shell{flex-direction:column}
-  .stage{min-height:300px;flex:0 0 300px}
-  .summary-grid{grid-template-columns:1fr}
-  .filter-panel{width:100%}
+.price-delivery {
+  font-size: 12px;
+  color: #6f6f6f;
+}
+
+.finish-btn {
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  z-index: 2;
+  border: 1px solid transparent;
+  background: #f4f4f4;
+  color: #6a6a6a;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  height: 34px;
+  padding: 0 18px;
+  cursor: pointer;
+}
+
+.finish-btn.dark {
+  background: #191919;
+  color: #fff;
+}
+
+.preview-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 70px 70px 46px;
+}
+
+.preview-img {
+  max-width: min(72%, 640px);
+  max-height: calc(100% - 4px);
+  object-fit: contain;
+  transition: opacity 0.2s ease;
+}
+
+.preview-img.fading {
+  opacity: 0;
+}
+
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: transparent;
+  color: #b8b8b8;
+  cursor: pointer;
+}
+
+.nav-arrow.left {
+  left: 10px;
+}
+
+.nav-arrow.right {
+  right: 10px;
+}
+
+.nav-arrow svg {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.dots-row {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: none;
+  background: #c2c2c2;
+  cursor: pointer;
+}
+
+.dot.active {
+  background: #8e8e8e;
+}
+
+.wear-thumb {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 62px;
+  height: 74px;
+  border-radius: 6px;
+  border: 1px solid #d6d6d6;
+  background: #fff;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.wear-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.sidebar {
+  width: 286px;
+  min-width: 286px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 10px 8px;
+}
+
+.tab {
+  border: none;
+  height: 32px;
+  border-radius: 16px;
+  background: transparent;
+  color: #727272;
+  font-size: 12px;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #efefef;
+  color: #363636;
+  font-weight: 600;
+}
+
+.search-row {
+  display: flex;
+  gap: 8px;
+  padding: 0 10px 8px;
+  border-bottom: 1px solid #efefef;
+}
+
+.search-box,
+.filter-btn {
+  height: 30px;
+  border: 1px solid #e4e4e4;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+}
+
+.search-box {
+  flex: 1;
+  padding: 0 10px;
+  gap: 6px;
+}
+
+.search-box svg,
+.filter-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: #919191;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 12px;
+  color: #4a4a4a;
+  background: transparent;
+}
+
+.search-box input::placeholder {
+  color: #9a9a9a;
+}
+
+.filter-btn {
+  width: 120px;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #4b4b4b;
+  cursor: pointer;
+  position: relative;
+}
+
+.filter-badge {
+  position: absolute;
+  right: -3px;
+  top: -3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1d1d1d;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-badge[hidden] {
+  display: none;
+}
+
+.list {
+  overflow-y: auto;
+  padding: 8px 8px 10px;
+  flex: 1;
+}
+
+.fabric-item,
+.config-row,
+.style-card {
+  display: grid;
+  grid-template-columns: 90px 1fr 14px;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #efefef;
+  border-radius: 8px;
+  background: #fff;
+  padding: 6px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.fabric-item.selected {
+  border-color: #b8b8b8;
+}
+
+.fabric-thumb,
+.config-thumb,
+.sum-thumb {
+  width: 90px;
+  height: 90px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #ececec;
+  background: #f7f7f7;
+  position: relative;
+}
+
+.fabric-thumb img,
+.config-thumb img,
+.sum-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-btn {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid #d2d2d2;
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #6b6b6b;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.fabric-name,
+.config-name {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #3a3a3a;
+}
+
+.fabric-price,
+.config-val {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #8a8a8a;
+}
+
+.item-chev {
+  color: #b2b2b2;
+  font-size: 18px;
+}
+
+.config-list {
+  display: none;
+}
+
+.style-card {
+  grid-template-columns: 34px 1fr 20px;
+  padding: 10px;
+}
+
+.style-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f2f2f2;
+  border: 1px solid #e6e6e6;
+}
+
+.style-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+}
+
+.style-name {
+  font-size: 12px;
+  color: #8a8a8a;
+  margin-top: 2px;
+}
+
+.summary-page {
+  display: none;
+  height: calc(100% - 40px);
+  background: #f8f8f8;
+  position: relative;
+}
+
+.summary-inner {
+  height: calc(100% - 62px);
+  overflow-y: auto;
+  padding: 26px 24px 12px;
+}
+
+.summary-title {
+  text-align: center;
+  font-size: 48px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+  margin-bottom: 20px;
+  scale: 0.45;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  gap: 22px;
+}
+
+.summary-preview {
+  background: #e3e3e3;
+  border: 1px solid #ececec;
+  min-height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.summary-preview img {
+  max-width: 78%;
+  max-height: 92%;
+  object-fit: contain;
+}
+
+.summary-panel {
+  background: #fff;
+  border: 1px solid #efefef;
+  padding: 14px;
+}
+
+.summary-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.summary-head h3 {
+  font-size: 24px;
+  font-weight: 700;
+  scale: 0.5;
+  transform-origin: left center;
+}
+
+.sum-items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sum-item {
+  display: grid;
+  grid-template-columns: 62px 1fr;
+  gap: 8px;
+  align-items: center;
+}
+
+.sum-thumb {
+  width: 62px;
+  height: 62px;
+}
+
+.sum-label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sum-value {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #8a8a8a;
+}
+
+.summary-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 62px;
+  border-top: 1px solid #e8e8e8;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+}
+
+.totals {
+  display: flex;
+  gap: 38px;
+}
+
+.total-k {
+  font-size: 11px;
+  color: #8b8b8b;
+}
+
+.total-v {
+  margin-top: 2px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.summary-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-outline,
+.btn-dark {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 4px;
+  border: 1px solid #d8d8d8;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-outline {
+  background: #fff;
+  color: #444;
+}
+
+.btn-dark {
+  background: #1f1f1f;
+  border-color: #1f1f1f;
+  color: #fff;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.22);
+  display: none;
+  z-index: 20;
+}
+
+.overlay.open {
+  display: block;
+}
+
+.filter-panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: min(410px, 100%);
+  background: #fff;
+  border-right: 1px solid #ececec;
+  transform: translateX(-100%);
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay.open .filter-panel {
+  transform: translateX(0);
+}
+
+.filter-head {
+  height: 54px;
+  border-bottom: 1px solid #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.filter-title {
+  font-size: 18px;
+  font-weight: 700;
+  scale: 0.6;
+  transform-origin: left center;
+}
+
+.clear-btn,
+.close-btn {
+  border: none;
+  background: transparent;
+  color: #696969;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.filter-body {
+  overflow-y: auto;
+  padding-bottom: 18px;
+}
+
+.fgroup {
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.fhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.fhead-title {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.fbody {
+  padding: 0 16px 12px;
+}
+
+.fgroup.collapsed .fbody {
+  display: none;
+}
+
+.opt,
+.color-opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #4e4e4e;
+  margin-bottom: 6px;
+}
+
+.colors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+}
+
+.color-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid #d2d2d2;
+}
+
+.info-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 30;
+}
+
+.info-modal.open {
+  display: flex;
+}
+
+.info-box {
+  width: min(460px, calc(100vw - 28px));
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+  padding: 18px;
+}
+
+.info-box h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.info-box p {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.4;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 980px) {
+  .app-frame {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: none;
+  }
+
+  .shell {
+    flex-direction: column;
+  }
+
+  .stage {
+    min-height: 320px;
+    border-right: none;
+    border-bottom: 1px solid #d7d7d7;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
 <body>
-
-<!-- TOP BAR -->
-<header class="topbar">
-  <div class="topbar-left">
-    <button class="icon-btn" title="Menu" aria-label="Menu">
-      <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
-    <button class="icon-btn" title="Search" aria-label="Search">
-      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
-    </button>
-    <div class="price-wrap" id="priceWrap">
-      <div class="price-total" id="priceTotal">Total $1133</div>
-      <div class="price-delivery">2–3 week delivery</div>
-    </div>
-  </div>
-
-  <div class="topbar-center">SUITSUPPLY</div>
-
-  <div class="topbar-right">
-    <button class="finish-btn" id="finishBtn" onclick="goSummary()">Finish</button>
-    <button class="icon-btn" title="Account"><svg viewBox="0 0 24 24"><path d="M20 21a8 8 0 1 0-16 0"/><circle cx="12" cy="9" r="4"/></svg></button>
-    <button class="icon-btn" title="Wishlist"><svg viewBox="0 0 24 24"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg></button>
-    <button class="icon-btn" title="Bag"><svg viewBox="0 0 24 24"><path d="M6 7h12l-1.5 13h-9L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg></button>
-  </div>
-</header>
-
-<!-- MAIN SHELL -->
-<div class="shell" id="mainShell">
-
-  <!-- STAGE -->
-  <div class="stage" id="stage">
-    <div class="spinner-overlay" id="spinner"></div>
-
-    <div class="preview-wrap">
-      <img class="preview-img" id="previewImg" src="" alt="Suit preview" onerror="this.src=getFallbackSVG()"/>
-    </div>
-
-    <button class="nav-arrow left" id="prevBtn" aria-label="Previous" onclick="changeSlide(-1)">
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-    </button>
-    <button class="nav-arrow right" id="nextBtn" aria-label="Next" onclick="changeSlide(1)">
-      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-    </button>
-
-    <div class="dots-row" id="dotsRow"></div>
-
-    <button class="wearing-thumb" id="wearingThumb" onclick="toggleWearing()" title="Toggle wearing view">
-      <img id="wearThumbImg" src="" alt="Wearing view" onerror="this.src=getWearingFallback()"/>
-    </button>
-  </div>
-
-  <!-- SIDEBAR -->
-  <aside class="sidebar" id="sidebar">
-    <!-- TABS -->
-    <div class="tab-row">
-      <button class="tab" id="tab-fabric" onclick="switchSection('fabric')">Fabric</button>
-      <button class="tab" id="tab-jacket" onclick="switchSection('jacket')">Jacket</button>
-      <button class="tab" id="tab-trousers" onclick="switchSection('trousers')">Trousers</button>
-      <button class="tab" id="tab-waistcoat" onclick="switchSection('waistcoat')">Waistcoat</button>
-    </div>
-
-    <!-- SEARCH + FILTER (fabric only) -->
-    <div class="search-row" id="searchRow">
-      <div class="search-box">
-        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg>
-        <input type="search" id="searchInput" placeholder="Search" autocomplete="off" oninput="onSearch()"/>
+<div class="app-frame">
+  <div class="shell" id="mainShell">
+    <section class="stage">
+      <div class="price-box">
+        <div class="price-total" id="priceTotal">Total $1133</div>
+        <div class="price-delivery">2-3 week delivery</div>
       </div>
-      <button class="filter-btn-pill" onclick="openFilter()">
-        <svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-        <span>Filter</span>
-        <span class="filter-badge" id="filterBadge" hidden>0</span>
+
+      <button class="finish-btn" id="finishBtn" onclick="goSummary()">Finish</button>
+
+      <div class="preview-wrap">
+        <img id="previewImg" class="preview-img" src="assets/image-removebg-preview (4).png" alt="Suit preview" />
+      </div>
+
+      <button class="nav-arrow left" id="prevBtn" onclick="changeSlide(-1)" aria-label="Previous">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
       </button>
-    </div>
+      <button class="nav-arrow right" id="nextBtn" onclick="changeSlide(1)" aria-label="Next">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
 
-    <!-- CONTENT AREA -->
-    <div class="fabric-list" id="fabricList"></div>
-    <div class="config-list" id="configList" style="display:none"></div>
-  </aside>
-</div>
+      <div class="dots-row" id="dotsRow"></div>
 
-<!-- SUMMARY PAGE -->
-<div id="summaryPage" style="display:none">
-  <div class="summary-page">
+      <button class="wear-thumb" onclick="toggleWearing()" title="Toggle wearing view">
+        <img id="wearThumbImg" src="assets/ai-model-removebg-preview.png" alt="Wearing" />
+      </button>
+    </section>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="tab-row">
+        <button class="tab" id="tab-fabric" onclick="switchSection('fabric')">Fabric</button>
+      </div>
+
+      <div class="search-row" id="searchRow">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><line x1="16" y1="16" x2="21" y2="21"/></svg>
+          <input id="searchInput" type="search" placeholder="Search" oninput="onSearch()" />
+        </div>
+        <button class="filter-btn" onclick="openFilter()">
+          <svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+          <span>Filter</span>
+          <span class="filter-badge" id="filterBadge" hidden>0</span>
+        </button>
+      </div>
+
+      <div class="list fabric-list" id="fabricList"></div>
+      <div class="list config-list" id="configList"></div>
+    </aside>
+  </div>
+
+  <section class="summary-page" id="summaryPage">
     <div class="summary-inner">
       <div class="summary-title">Your custom suit summary</div>
       <div class="summary-grid">
-        <div class="sum-preview" id="sumPreview">
-          <img id="sumPreviewImg" src="" alt="Summary preview"/>
+        <div class="summary-preview">
+          <img id="sumPreviewImg" src="assets/image-removebg-preview (4).png" alt="Summary" />
         </div>
-        <div class="sum-panel">
-          <div class="sum-section-head">
+        <div class="summary-panel">
+          <div class="summary-head">
             <h3>Jacket</h3>
-            <button class="pencil-btn" onclick="switchSection('jacket');showConfigurator()">
+            <button class="icon-btn" onclick="switchSection('jacket');showConfigurator()">
               <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
             </button>
           </div>
           <div class="sum-items" id="sumItems"></div>
-          <div class="sum-footer">
-            <div class="sum-totals">
-              <div class="sum-total-block">
-                <div class="k">Total</div>
-                <div class="v" id="sumTotal">$1133</div>
-              </div>
-              <div class="sum-total-block">
-                <div class="k">Delivery time</div>
-                <div class="v" style="font-size:14px">2–3 weeks</div>
-              </div>
-            </div>
-            <div class="sum-actions">
-              <button class="icon-btn"><svg viewBox="0 0 24 24" style="width:16px;height:16px"><path d="M19 21l-7-4-7 4V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z" stroke="#374151" fill="none" stroke-width="1.8"/></svg></button>
-              <button class="btn-outline" onclick="showConfigurator();switchSection('jacket')">Finish in-store</button>
-              <button class="btn-dark">
-                <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4 9.5-9.5z"/></svg>
-                Select sizes
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </div>
-  </div>
+
+    <div class="summary-footer">
+      <div class="totals">
+        <div>
+          <div class="total-k">Total</div>
+          <div class="total-v" id="sumTotal">$1133</div>
+        </div>
+        <div>
+          <div class="total-k">Delivery time</div>
+          <div class="total-v">2-3 weeks</div>
+        </div>
+      </div>
+      <div class="summary-actions">
+        <button class="icon-btn" aria-label="Save"><svg viewBox="0 0 24 24"><path d="M5 4h14v17l-7-4-7 4z"/></svg></button>
+        <button class="btn-outline" onclick="showConfigurator();switchSection('jacket')">Finish in-store</button>
+        <button class="btn-dark">Select sizes</button>
+      </div>
+    </div>
+  </section>
 </div>
 
-<!-- FILTER OVERLAY + PANEL -->
-<div class="filter-overlay" id="filterOverlay" onclick="onOverlayClick(event)">
+<div class="overlay" id="filterOverlay" onclick="onOverlayClick(event)">
   <div class="filter-panel">
     <div class="filter-head">
       <div class="filter-title">Filter Fabrics</div>
-      <div class="filter-actions">
-        <button class="clear-all-btn" onclick="clearFilters()">Clear All</button>
-        <button class="close-btn" onclick="closeFilter()">
-          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
+      <div>
+        <button class="clear-btn" onclick="clearFilters()">Clear all</button>
+        <button class="close-btn" onclick="closeFilter()">X</button>
       </div>
     </div>
     <div class="filter-body" id="filterBody"></div>
   </div>
 </div>
 
-<!-- INFO DIALOG -->
-<div class="info-dialog-wrap" id="infoDialogWrap" onclick="onInfoOverlayClick(event)">
-  <div class="info-dialog">
+<div class="info-modal" id="infoModal" onclick="onInfoOverlay(event)">
+  <div class="info-box">
     <h3 id="infoTitle">Fabric</h3>
-    <p id="infoBody">Details about this fabric.</p>
-    <div class="info-dialog-footer">
-      <button class="dlg-close-btn" onclick="closeInfo()">Close</button>
-    </div>
+    <p id="infoText">Details.</p>
+    <button class="btn-outline" onclick="closeInfo()">Close</button>
   </div>
 </div>
 
 <script>
-// ─── DATA ───────────────────────────────────────────────────────────────────
+const ASSETS = {
+  model: "assets/ai-model-removebg-preview.png",
+  suit: "assets/image-removebg-preview (4).png"
+};
+
 const FABRICS = [
-  {id:"f1",  name:"Navy Herringbone Wool Silk Linen", price:1133, hex:"#1a2035", colorKey:"Blue",  season:"All Season",    design:"Herringbone", materials:["Wool","Silk","Linen"], mill:"Angelo (IT)"},
-  {id:"f2",  name:"Navy Pure Linen",                  price:1023, hex:"#1b2340", colorKey:"Blue",  season:"Spring/Summer", design:"Plain",       materials:["Linen"],               mill:"Baird McNutt (GB)"},
-  {id:"f3",  name:"Navy Pure Wool Seersucker",        price:1103, hex:"#1e2a45", colorKey:"Blue",  season:"All Season",    design:"Plain",       materials:["Wool"],                mill:"Drago (IT)"},
-  {id:"f4",  name:"Navy Pure Cotton",                 price:923,  hex:"#16203b", colorKey:"Blue",  season:"Spring/Summer", design:"Plain",       materials:["Cotton"],              mill:"E. Thomas (IT)"},
-  {id:"f5",  name:"Dark Blue Cotton Stretch Seersucker",price:923,hex:"#111d38", colorKey:"Blue",  season:"Spring/Summer", design:"Plain",       materials:["Cotton"],              mill:"Ferla (IT)"},
-  {id:"f6",  name:"Dark Blue Pure Linen",             price:1023, hex:"#152038", colorKey:"Blue",  season:"Spring/Summer", design:"Plain",       materials:["Linen"],               mill:"Libecco (BE)"},
-  {id:"f7",  name:"Burgundy Pure Linen",              price:1023, hex:"#3d1a22", colorKey:"Red",   season:"Spring/Summer", design:"Plain",       materials:["Linen"],               mill:"Leomaster (IT)"},
-  {id:"f8",  name:"Burgundy Wool Silk Linen",         price:1133, hex:"#3a1820", colorKey:"Red",   season:"All Season",    design:"Plain",       materials:["Wool","Silk","Linen"], mill:"Colombo (IT)"},
-  {id:"f9",  name:"Burgundy Stripe Wool Silk Linen",  price:1133, hex:"#3c1a22", colorKey:"Red",   season:"All Season",    design:"Stripe",      materials:["Wool","Silk","Linen"], mill:"Botto Giuseppe (IT)"},
-  {id:"f10", name:"Dark Blue Houndstooth Wool Silk Linen",price:1133,hex:"#1a2235",colorKey:"Blue",season:"All Season",   design:"Houndstooth", materials:["Wool","Silk","Linen"], mill:"Marling & Evans (GB)"},
+  { id: "f1", name: "Navy Herringbone Wool Silk Linen", price: 1133, colorKey: "Blue", season: "All Season", design: "Herringbone", materials: ["Wool", "Silk", "Linen"], mill: "Angelo (IT)" },
+  { id: "f2", name: "Navy Pure Linen", price: 1023, colorKey: "Blue", season: "Spring/Summer", design: "Plain", materials: ["Linen"], mill: "Baird McNutt (GB)" },
+  { id: "f3", name: "Navy Pure Wool Seersucker", price: 1103, colorKey: "Blue", season: "All Season", design: "Plain", materials: ["Wool"], mill: "Drago (IT)" },
+  { id: "f4", name: "Navy Pure Cotton", price: 923, colorKey: "Blue", season: "Spring/Summer", design: "Plain", materials: ["Cotton"], mill: "E. Thomas (IT)" },
+  { id: "f5", name: "Dark Blue Cotton Stretch Seersucker", price: 923, colorKey: "Blue", season: "Spring/Summer", design: "Plain", materials: ["Cotton"], mill: "Ferla (IT)" },
+  { id: "f6", name: "Dark Blue Pure Linen", price: 1023, colorKey: "Blue", season: "Spring/Summer", design: "Plain", materials: ["Linen"], mill: "Libecco (BE)" },
+  { id: "f7", name: "Burgundy Wool Silk Linen", price: 1133, colorKey: "Red", season: "All Season", design: "Plain", materials: ["Wool", "Silk", "Linen"], mill: "Colombo (IT)" },
+  { id: "f8", name: "Burgundy Pure Linen", price: 1023, colorKey: "Red", season: "Spring/Summer", design: "Plain", materials: ["Linen"], mill: "Leomaster (IT)" },
+  { id: "f9", name: "Burgundy Stripe Wool Silk Linen", price: 1133, colorKey: "Red", season: "All Season", design: "Stripe", materials: ["Wool", "Silk", "Linen"], mill: "Botto Giuseppe (IT)" },
+  { id: "f10", name: "Red Wool Silk Linen", price: 1133, colorKey: "Red", season: "All Season", design: "Plain", materials: ["Wool", "Silk", "Linen"], mill: "Marling & Evans (GB)" }
 ];
 
 const COLORS = [
-  {k:"Blue",hex:"#1f2d6e"},{k:"Brown",hex:"#8a5c40"},{k:"Purple",hex:"#5c3d7a"},
-  {k:"Grey",hex:"#8a8e94"},{k:"Pink",hex:"#e8a0c0"},{k:"Yellow",hex:"#e8c020"},
-  {k:"White",hex:"#e8e8e4"},{k:"Green",hex:"#5c7a60"},{k:"Black",hex:"#111111"},
-  {k:"Red",hex:"#8a2828"},{k:"Orange",hex:"#d4742a"}
-];
-const SEASONS = ["All Season","Spring/Summer","Fall/Winter"];
-const DESIGNS = ["Bird's eye","Check","Herringbone","Houndstooth","Plain","Stripe"];
-const MATERIAL_TREE = [
-  {k:"Alpaca",    subs:["Alpaca Wool Blend"]},
-  {k:"Cashmere",  subs:["Cotton Cashmere","Cotton Cashmere Corduroy","Wool Cashmere"]},
-  {k:"Cotton",    subs:["Cotton Cashmere","Cotton Cashmere Corduroy","Cotton Linen"]},
-  {k:"Linen",     subs:["Cotton Linen","Linen Blend","Linen Cotton"]},
-  {k:"Silk",      subs:["Cotton Silk","Linen Silk","Linen Wool Silk"]},
-  {k:"Wool",      subs:["Alpaca Wool Blend","Circular Wool Flannel","Linen Wool"]},
-];
-const MILLS = [
-  "Angelo (IT)","Baird McNutt (GB)","Botto Giuseppe (IT)","Carlo Barbera (IT)","Colombo (IT)",
-  "Corrado (IT)","Delfino (IT)","Di Sondrio (IT)","Drago (IT)","E. Thomas (IT)","Emmetex (IT)",
-  "Ferla (IT)","Lanificio Ermenegildo Zegna (IT)","Leomaster (IT)","Libecco (BE)","Marling & Evans (GB)"
+  { k: "Blue", hex: "#5a6670" }, { k: "Brown", hex: "#b28564" }, { k: "Purple", hex: "#875f96" }, { k: "Grey", hex: "#a9a9a9" },
+  { k: "Pink", hex: "#e8b4d8" }, { k: "Yellow", hex: "#ebc900" }, { k: "White", hex: "#f1f1f1" }, { k: "Green", hex: "#8ba397" },
+  { k: "Black", hex: "#111" }, { k: "Red", hex: "#c06262" }, { k: "Orange", hex: "#d58b5c" }
 ];
 
-// ─── STATE ───────────────────────────────────────────────────────────────────
+const SEASONS = ["All Season", "Spring/Summer", "Fall/Winter"];
+const DESIGNS = ["Bird's eye", "Check", "Herringbone", "Houndstooth", "Plain", "Stripe"];
+const MATERIALS = ["Wool", "Silk", "Linen", "Cotton", "Cashmere", "Alpaca"];
+const MILLS = ["Angelo (IT)", "Baird McNutt (GB)", "Botto Giuseppe (IT)", "Colombo (IT)", "Drago (IT)", "E. Thomas (IT)", "Ferla (IT)", "Leomaster (IT)", "Libecco (BE)", "Marling & Evans (GB)"];
+
 const state = {
   section: "fabric",
   selectedId: "f1",
-  wearing: false,
   slide: 0,
   totalSlides: 3,
+  wearing: false,
   q: "",
-  filters: {sort:"default", colors:new Set(), seasons:new Set(), designs:new Set(), materials:new Set(), mills:new Set()},
+  filters: {
+    sort: "default",
+    colors: new Set(),
+    seasons: new Set(),
+    designs: new Set(),
+    materials: new Set(),
+    mills: new Set()
+  },
   jacket: {
-    style:"Milano",
-    items:[
-      {k:"Closure", v:"1 Button",          thumb:"closure"},
-      {k:"Button",  v:"Dark & Light Brown", thumb:"button"},
-      {k:"Lining",  v:"Full Lined",         thumb:"lining"},
-      {k:"Lapel",   v:"Peak",               thumb:"lapel"},
-      {k:"Monogram",v:"",                   thumb:"monogram"},
+    style: "Milano",
+    items: [
+      { k: "Closure", v: "1 Button" },
+      { k: "Button", v: "Dark & Light Brown" },
+      { k: "Lining", v: "Full Lined" },
+      { k: "Lapel", v: "Peak" },
+      { k: "Monogram", v: "-" }
     ]
   },
   trousers: {
-    style:"Slim Leg Single Pleat",
-    items:[
-      {k:"Waistband",    v:"Standard button",      thumb:"waistband"},
-      {k:"Pocket",       v:"Slanted",               thumb:"pocket"},
-      {k:"Pleat",        v:"Standard Single Pleat", thumb:"pleat"},
-      {k:"Hem Finishing",v:"Turn Up 5 cm",          thumb:"hem"},
-      {k:"Button",       v:"Dark & Light Brown",    thumb:"button"},
+    style: "Slim Leg Single Pleat",
+    items: [
+      { k: "Waistband", v: "Standard button" },
+      { k: "Pocket", v: "Slanted" },
+      { k: "Pleat", v: "Standard Single Pleat" },
+      { k: "Hem Finishing", v: "Turn Up 5 cm" },
+      { k: "Button", v: "Dark & Light Brown" }
     ]
   }
 };
 
-// ─── PLACEHOLDER IMAGE URLS ─────────────────────────────────────────────────
-// User-provided placeholder images
-const USER_IMGS = [
-  "https://i.ibb.co/xtt0Z3dy",
-  "https://i.ibb.co/wF31k6SB"
-];
-
-// ─── SVG GENERATORS ─────────────────────────────────────────────────────────
-function makeFabricSwatch(hex, design) {
-  const d = design || "Plain";
-  let pattern = "";
-  if (d === "Herringbone") {
-    pattern = `<pattern id="pat" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
-      <rect width="8" height="8" fill="${hex}"/>
-      <rect x="0" y="0" width="3" height="8" fill="rgba(255,255,255,.06)"/>
-    </pattern>`;
-  } else if (d === "Stripe") {
-    pattern = `<pattern id="pat" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(15)">
-      <rect width="6" height="6" fill="${hex}"/>
-      <rect x="0" y="0" width="1.5" height="6" fill="rgba(255,255,255,.18)"/>
-    </pattern>`;
-  } else if (d === "Houndstooth") {
-    pattern = `<pattern id="pat" width="10" height="10" patternUnits="userSpaceOnUse">
-      <rect width="10" height="10" fill="${hex}"/>
-      <rect x="0" y="0" width="5" height="5" fill="rgba(255,255,255,.12)"/>
-      <rect x="5" y="5" width="5" height="5" fill="rgba(255,255,255,.12)"/>
-    </pattern>`;
-  } else {
-    pattern = `<pattern id="pat" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
-      <rect width="4" height="4" fill="${hex}"/>
-      <rect x="0" y="0" width="1" height="4" fill="rgba(255,255,255,.04)"/>
-    </pattern>`;
-  }
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="72" height="72" viewBox="0 0 72 72">
-    <defs>${pattern}</defs>
-    <rect width="72" height="72" rx="10" fill="url(#pat)"/>
-    <rect width="72" height="72" rx="10" fill="rgba(0,0,0,.08)"/>
-  </svg>`;
-  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+function money(v) {
+  return "$" + Math.round(v).toLocaleString();
 }
 
-function makePreviewSVG(hex, label) {
-  // Draw a stylized suit silhouette
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="500" height="700" viewBox="0 0 500 700">
-    <defs>
-      <pattern id="fp" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(30)">
-        <rect width="6" height="6" fill="${hex}"/>
-        <rect width="1.5" height="6" fill="rgba(255,255,255,.05)"/>
-      </pattern>
-      <radialGradient id="sh" cx="50%" cy="30%" r="70%">
-        <stop offset="0%" stop-color="rgba(255,255,255,.08)"/>
-        <stop offset="100%" stop-color="rgba(0,0,0,.2)"/>
-      </radialGradient>
-    </defs>
-    <!-- jacket body -->
-    <path d="M150 160 Q120 180 100 250 L90 520 Q90 540 110 540 L390 540 Q410 540 410 520 L400 250 Q380 180 350 160 Z" fill="url(#fp)"/>
-    <path d="M150 160 Q120 180 100 250 L90 520 Q90 540 110 540 L390 540 Q410 540 410 520 L400 250 Q380 180 350 160 Z" fill="url(#sh)"/>
-    <!-- lapels -->
-    <path d="M200 160 L240 300 L250 300 L250 160 Z" fill="${hex}" opacity=".6"/>
-    <path d="M300 160 L260 300 L250 300 L250 160 Z" fill="${hex}" opacity=".6"/>
-    <path d="M200 160 L240 300 L250 300" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
-    <path d="M300 160 L260 300 L250 300" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="1.5"/>
-    <!-- shirt -->
-    <rect x="235" y="160" width="30" height="140" rx="3" fill="#f8f8f8"/>
-    <!-- collar -->
-    <path d="M200 160 Q210 140 230 130 L250 160" fill="#f8f8f8"/>
-    <path d="M300 160 Q290 140 270 130 L250 160" fill="#f8f8f8"/>
-    <!-- shoulders -->
-    <path d="M150 160 Q140 150 130 160 L120 200 Q140 195 150 180 Z" fill="${hex}"/>
-    <path d="M350 160 Q360 150 370 160 L380 200 Q360 195 350 180 Z" fill="${hex}"/>
-    <!-- button -->
-    <circle cx="250" cy="380" r="8" fill="rgba(255,255,255,.15)" stroke="rgba(255,255,255,.3)" stroke-width="1"/>
-    <!-- pocket -->
-    <rect x="130" y="360" width="60" height="8" rx="4" fill="rgba(255,255,255,.12)"/>
-    <!-- bottom pockets -->
-    <rect x="120" y="430" width="75" height="55" rx="6" fill="rgba(0,0,0,.12)"/>
-    <rect x="305" y="430" width="75" height="55" rx="6" fill="rgba(0,0,0,.12)"/>
-    <!-- label -->
-    <text x="250" y="610" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="14" fill="rgba(100,100,100,.5)" font-weight="500">${label || ""}</text>
-  </svg>`;
-  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+function selectedFabric() {
+  return FABRICS.find((f) => f.id === state.selectedId) || FABRICS[0];
 }
 
-function makeTrouserSVG(hex) {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="400" height="700" viewBox="0 0 400 700">
-    <defs>
-      <pattern id="tp" width="4" height="4" patternUnits="userSpaceOnUse" patternTransform="rotate(20)">
-        <rect width="4" height="4" fill="${hex}"/>
-        <rect width="1" height="4" fill="rgba(255,255,255,.04)"/>
-      </pattern>
-    </defs>
-    <!-- waistband -->
-    <rect x="80" y="100" width="240" height="28" rx="6" fill="${hex}" opacity=".9"/>
-    <rect x="85" y="105" width="230" height="16" rx="4" fill="rgba(255,255,255,.08)"/>
-    <!-- button -->
-    <circle cx="200" cy="114" r="6" fill="rgba(255,255,255,.2)" stroke="rgba(255,255,255,.4)" stroke-width="1"/>
-    <!-- trouser body left -->
-    <path d="M80 128 L80 420 Q80 440 90 440 L190 440 Q200 440 200 430 L200 128 Z" fill="url(#tp)"/>
-    <!-- trouser body right -->
-    <path d="M320 128 L320 420 Q320 440 310 440 L210 440 Q200 440 200 430 L200 128 Z" fill="url(#tp)"/>
-    <!-- left leg -->
-    <path d="M90 440 Q85 450 80 500 L75 660 Q75 680 95 680 L185 680 Q200 680 200 660 L195 440 Z" fill="url(#tp)"/>
-    <!-- right leg -->
-    <path d="M310 440 Q315 450 320 500 L325 660 Q325 680 305 680 L215 680 Q200 680 200 660 L205 440 Z" fill="url(#tp)"/>
-    <!-- crease lines -->
-    <line x1="140" y1="440" x2="130" y2="680" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
-    <line x1="260" y1="440" x2="270" y2="680" stroke="rgba(255,255,255,.12)" stroke-width="1.5"/>
-    <!-- turn-up -->
-    <rect x="78" y="650" width="115" height="20" rx="4" fill="${hex}" opacity=".7"/>
-    <rect x="207" y="650" width="115" height="20" rx="4" fill="${hex}" opacity=".7"/>
-  </svg>`;
-  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+function stageImage() {
+  if (state.wearing) return ASSETS.model;
+  if (state.section === "trousers") return ASSETS.model;
+  return ASSETS.suit;
 }
 
-function makeWearingSVG(hex) {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="160" viewBox="0 0 120 160">
-    <rect width="120" height="160" fill="#ececec"/>
-    <!-- head -->
-    <circle cx="60" cy="30" r="18" fill="#d4a574"/>
-    <!-- body/suit -->
-    <path d="M30 70 Q25 85 22 130 L98 130 Q95 85 90 70 Q80 60 60 58 Q40 60 30 70Z" fill="${hex}"/>
-    <!-- shirt -->
-    <rect x="54" y="58" width="12" height="60" fill="#f0f0f0"/>
-    <!-- lapels -->
-    <path d="M54 58 L48 90 L60 90" fill="${hex}" opacity=".7"/>
-    <path d="M66 58 L72 90 L60 90" fill="${hex}" opacity=".7"/>
-    <!-- legs -->
-    <rect x="35" y="128" width="22" height="28" rx="4" fill="${hex}"/>
-    <rect x="63" y="128" width="22" height="28" rx="4" fill="${hex}"/>
-  </svg>`;
-  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-}
-
-function makeConfigThumb(hex, type) {
-  const configs = {
-    closure:  `<rect x="10" y="15" width="80" height="70" rx="6" fill="${hex}"/><circle cx="50" cy="50" r="8" fill="rgba(255,255,255,.3)" stroke="rgba(255,255,255,.5)" stroke-width="1.5"/>`,
-    button:   `<circle cx="50" cy="50" r="28" fill="${hex}"/><circle cx="50" cy="50" r="22" fill="rgba(0,0,0,.2)"/><circle cx="42" cy="44" r="4" fill="rgba(255,255,255,.4)"/><circle cx="58" cy="44" r="4" fill="rgba(255,255,255,.4)"/><circle cx="42" cy="56" r="4" fill="rgba(255,255,255,.4)"/><circle cx="58" cy="56" r="4" fill="rgba(255,255,255,.4)"/>`,
-    lining:   `<rect x="5" y="5" width="45" height="90" rx="6" fill="#f5f5f5"/><rect x="50" y="5" width="45" height="90" rx="6" fill="${hex}"/>`,
-    lapel:    `<path d="M20 10 L50 60 L80 10 Z" fill="${hex}"/><path d="M20 10 L50 60" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="2"/>`,
-    monogram: `<rect width="100" height="100" fill="#f5f5f5"/><text x="50" y="62" text-anchor="middle" font-family="serif" font-size="32" fill="${hex}" font-weight="700">ABC</text>`,
-    waistband:`<rect x="5" y="30" width="90" height="40" rx="6" fill="${hex}"/><circle cx="50" cy="50" r="8" fill="rgba(255,255,255,.3)"/>`,
-    pocket:   `<rect x="10" y="10" width="80" height="80" rx="6" fill="#f0f0f0"/><line x1="20" y1="60" x2="80" y2="40" stroke="${hex}" stroke-width="4" stroke-linecap="round"/>`,
-    pleat:    `<rect x="5" y="5" width="90" height="90" rx="6" fill="${hex}"/><line x1="50" y1="10" x2="50" y2="90" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>`,
-    hem:      `<rect x="5" y="60" width="90" height="35" rx="6" fill="${hex}" opacity=".7"/><rect x="5" y="5" width="90" height="60" rx="6" fill="${hex}"/>`,
-  };
-  const body = configs[type] || `<rect width="100" height="100" fill="${hex}"/>`;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100">${body}</svg>`;
-  return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
-}
-
-function getFallbackSVG() {
-  const f = getSelectedFabric();
-  return makePreviewSVG(f.hex, "");
-}
-function getWearingFallback() {
-  const f = getSelectedFabric();
-  return makeWearingSVG(f.hex);
-}
-
-// ─── HELPERS ────────────────────────────────────────────────────────────────
-function getSelectedFabric() {
-  return FABRICS.find(f => f.id === state.selectedId) || FABRICS[0];
-}
-function money(n) { return "$" + Math.round(n || 0).toLocaleString(); }
-
-// ─── RENDERING ───────────────────────────────────────────────────────────────
-function renderAll() {
-  renderTopBar();
-  renderTabs();
-  renderPreview();
-
-  if (state.section === "summary") {
-    document.getElementById("mainShell").style.display = "none";
-    document.getElementById("summaryPage").style.display = "block";
-    renderSummary();
-  } else {
-    document.getElementById("mainShell").style.display = "flex";
-    document.getElementById("summaryPage").style.display = "none";
-    renderSideContent();
-  }
-}
-
-function renderTopBar() {
-  const f = getSelectedFabric();
+function updateTop() {
+  const f = selectedFabric();
   document.getElementById("priceTotal").textContent = "Total " + money(f.price);
-  const fb = document.getElementById("finishBtn");
-  if (state.section === "jacket" || state.section === "trousers") {
-    fb.classList.add("dark");
-  } else {
-    fb.classList.remove("dark");
-  }
+  const finishBtn = document.getElementById("finishBtn");
+  finishBtn.classList.toggle("dark", state.section === "jacket" || state.section === "trousers");
 }
 
 function renderTabs() {
-  ["fabric","jacket","trousers","waistcoat"].forEach(s => {
-    const t = document.getElementById("tab-"+s);
-    if (t) t.classList.toggle("active", s === state.section);
+  ["fabric", "jacket", "trousers", "waistcoat"].forEach((s) => {
+    const el = document.getElementById("tab-" + s);
+    if (el) el.classList.toggle("active", state.section === s);
   });
 }
 
 function renderPreview() {
-  const f = getSelectedFabric();
   const img = document.getElementById("previewImg");
-  const wearImg = document.getElementById("wearThumbImg");
+  img.src = stageImage();
+  img.classList.remove("fading");
 
-  // Determine what to show based on slide
-  let src;
-  if (state.wearing) {
-    src = makeWearingSVG(f.hex);
-    // Try user-provided image
-    src = USER_IMGS[0] || src;
-  } else {
-    if (state.section === "trousers") {
-      src = makeTrouserSVG(f.hex);
-    } else {
-      src = makePreviewSVG(f.hex, "");
-    }
-    // For slide 0 on fabric/jacket section, try user images
-    if ((state.section === "fabric" || state.section === "jacket") && state.slide < USER_IMGS.length) {
-      src = USER_IMGS[state.slide] || src;
-    }
-  }
+  document.getElementById("wearThumbImg").src = ASSETS.model;
 
-  // Fade transition
-  img.classList.add("fading");
-  setTimeout(() => {
-    img.src = src;
-    img.classList.remove("fading");
-  }, 120);
-
-  // Wearing thumb
-  wearImg.src = makeWearingSVG(f.hex);
-  if (!state.wearing && USER_IMGS[0]) wearImg.src = USER_IMGS[0];
-
-  // Dots
-  const totalSlides = state.totalSlides;
-  const dotsRow = document.getElementById("dotsRow");
-  dotsRow.innerHTML = "";
-  for (let i = 0; i < totalSlides; i++) {
-    const d = document.createElement("span");
-    d.className = "dot" + (i === state.slide ? " active" : "");
-    d.onclick = () => { state.slide = i; state.wearing = false; renderPreview(); };
-    dotsRow.appendChild(d);
-  }
-
-  // Hide arrows if only 1 slide
-  document.getElementById("prevBtn").hidden = totalSlides <= 1;
-  document.getElementById("nextBtn").hidden = totalSlides <= 1;
-}
-
-function renderSideContent() {
-  const isFabric = state.section === "fabric";
-  const isConfig = state.section === "jacket" || state.section === "trousers" || state.section === "waistcoat";
-
-  document.getElementById("searchRow").style.display = isFabric ? "flex" : "none";
-  document.getElementById("fabricList").style.display = isFabric ? "flex" : "none";
-  document.getElementById("configList").style.display = isConfig ? "block" : "none";
-
-  if (isFabric) {
-    document.getElementById("fabricList").style.flexDirection = "column";
-    renderFabricList();
-  } else if (isConfig) {
-    renderConfigList();
+  const dots = document.getElementById("dotsRow");
+  dots.innerHTML = "";
+  for (let i = 0; i < state.totalSlides; i += 1) {
+    const dot = document.createElement("button");
+    dot.className = "dot" + (state.slide === i ? " active" : "");
+    dot.onclick = () => {
+      state.slide = i;
+      state.wearing = false;
+      renderPreview();
+    };
+    dots.appendChild(dot);
   }
 }
 
 function applyFilters(list) {
-  let out = list;
+  let out = [...list];
   const q = state.q.trim().toLowerCase();
-  if (q) out = out.filter(f => f.name.toLowerCase().includes(q));
-  if (state.filters.colors.size) out = out.filter(f => state.filters.colors.has(f.colorKey));
-  if (state.filters.seasons.size) out = out.filter(f => state.filters.seasons.has(f.season));
-  if (state.filters.designs.size) out = out.filter(f => state.filters.designs.has(f.design));
-  if (state.filters.materials.size) out = out.filter(f => f.materials.some(m => state.filters.materials.has(m)));
-  if (state.filters.mills.size) out = out.filter(f => state.filters.mills.has(f.mill));
-  const sort = state.filters.sort;
-  if (sort === "newest") out = [...out].reverse();
-  else if (sort === "priceHigh") out = [...out].sort((a,b) => b.price - a.price);
-  else if (sort === "priceLow") out = [...out].sort((a,b) => a.price - b.price);
+  if (q) out = out.filter((f) => f.name.toLowerCase().includes(q));
+  if (state.filters.colors.size) out = out.filter((f) => state.filters.colors.has(f.colorKey));
+  if (state.filters.seasons.size) out = out.filter((f) => state.filters.seasons.has(f.season));
+  if (state.filters.designs.size) out = out.filter((f) => state.filters.designs.has(f.design));
+  if (state.filters.materials.size) out = out.filter((f) => f.materials.some((m) => state.filters.materials.has(m)));
+  if (state.filters.mills.size) out = out.filter((f) => state.filters.mills.has(f.mill));
+
+  if (state.filters.sort === "newest") out.reverse();
+  if (state.filters.sort === "priceHigh") out.sort((a, b) => b.price - a.price);
+  if (state.filters.sort === "priceLow") out.sort((a, b) => a.price - b.price);
   return out;
 }
 
@@ -847,341 +975,108 @@ function renderFabricList() {
   const wrap = document.getElementById("fabricList");
   wrap.innerHTML = "";
 
-  list.forEach(f => {
-    const item = document.createElement("div");
-    item.className = "fabric-item" + (f.id === state.selectedId ? " selected" : "");
+  list.forEach((f) => {
+    const row = document.createElement("div");
+    row.className = "fabric-item" + (state.selectedId === f.id ? " selected" : "");
 
-    // swatch
-    const swDiv = document.createElement("div");
-    swDiv.className = "swatch-img";
-    const swImg = document.createElement("img");
-    swImg.src = makeFabricSwatch(f.hex, f.design);
-    swImg.alt = f.name;
-    swDiv.appendChild(swImg);
-
-    // info btn (only on selected)
-    if (f.id === state.selectedId) {
-      const ib = document.createElement("button");
-      ib.className = "swatch-info-btn";
-      ib.title = "Fabric info";
-      ib.textContent = "i";
-      ib.onclick = (e) => { e.stopPropagation(); openInfo(f); };
-      swDiv.appendChild(ib);
+    const thumb = document.createElement("div");
+    thumb.className = "fabric-thumb";
+    thumb.innerHTML = '<img src="' + ASSETS.suit + '" alt="' + f.name + '" />';
+    if (state.selectedId === f.id) {
+      const info = document.createElement("button");
+      info.className = "info-btn";
+      info.textContent = "i";
+      info.onclick = (e) => {
+        e.stopPropagation();
+        openInfo(f);
+      };
+      thumb.appendChild(info);
     }
 
-    // meta
     const meta = document.createElement("div");
-    meta.className = "fabric-meta";
-    const nm = document.createElement("div");
-    nm.className = "fabric-name";
-    nm.textContent = f.name;
-    const pr = document.createElement("div");
-    pr.className = "fabric-price";
-    pr.textContent = money(f.price);
-    meta.appendChild(nm);
-    meta.appendChild(pr);
+    meta.innerHTML = '<div class="fabric-name">' + f.name + '</div><div class="fabric-price">' + money(f.price) + "</div>";
 
     const chev = document.createElement("div");
     chev.className = "item-chev";
-    chev.innerHTML = "›";
+    chev.textContent = ">";
 
-    item.appendChild(swDiv);
-    item.appendChild(meta);
-    item.appendChild(chev);
-
-    item.onclick = () => {
+    row.appendChild(thumb);
+    row.appendChild(meta);
+    row.appendChild(chev);
+    row.onclick = () => {
       state.selectedId = f.id;
-      state.wearing = false;
       state.slide = 0;
+      state.wearing = false;
       renderAll();
     };
 
-    wrap.appendChild(item);
+    wrap.appendChild(row);
   });
 }
 
 function renderConfigList() {
   const wrap = document.getElementById("configList");
   wrap.innerHTML = "";
-  const f = getSelectedFabric();
+  const source = state.section === "trousers" ? state.trousers : state.jacket;
 
-  const data = state.section === "trousers" ? state.trousers : state.jacket;
-  const sec = state.section === "trousers" ? state.trousers : state.jacket;
+  const style = document.createElement("div");
+  style.className = "style-card";
+  style.innerHTML = '<div class="style-icon"></div><div><div class="style-label">Your Style</div><div class="style-name">' + source.style + '</div></div><div class="item-chev">></div>';
+  wrap.appendChild(style);
 
-  // Style card
-  const styleCard = document.createElement("div");
-  styleCard.className = "style-card";
-  styleCard.innerHTML = `
-    <div class="style-left">
-      <div class="style-icon">🧵</div>
-      <div>
-        <div class="style-label">Your Style</div>
-        <div class="style-name">${sec.style}</div>
-      </div>
-    </div>
-    <button class="pencil-btn">
-      <svg viewBox="0 0 24 24" fill="none" stroke="#374151" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
-        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-      </svg>
-    </button>
-  `;
-  wrap.appendChild(styleCard);
-
-  sec.items.forEach(it => {
+  source.items.forEach((it) => {
     const row = document.createElement("div");
     row.className = "config-row";
-
-    const thumb = document.createElement("div");
-    thumb.className = "config-thumb";
-    const tImg = document.createElement("img");
-    tImg.src = makeConfigThumb(f.hex, it.thumb);
-    tImg.alt = it.k;
-    thumb.appendChild(tImg);
-
-    const metaDiv = document.createElement("div");
-    const label = document.createElement("div");
-    label.className = "config-label";
-    label.textContent = it.k;
-    const val = document.createElement("div");
-    val.className = "config-val";
-    val.textContent = it.v || "–";
-    metaDiv.appendChild(label);
-    metaDiv.appendChild(val);
-
-    const chev = document.createElement("div");
-    chev.className = "config-chev";
-    chev.innerHTML = "›";
-
-    row.appendChild(thumb);
-    row.appendChild(metaDiv);
-    row.appendChild(chev);
+    row.innerHTML = '<div class="config-thumb"><img src="' + ASSETS.suit + '" alt="' + it.k + '" /></div><div><div class="config-name">' + it.k + '</div><div class="config-val">' + it.v + '</div></div><div class="item-chev">></div>';
     wrap.appendChild(row);
   });
 }
 
-function renderSummary() {
-  const f = getSelectedFabric();
-  document.getElementById("sumTotal").textContent = money(f.price);
-  document.getElementById("sumPreviewImg").src = makePreviewSVG(f.hex, "");
+function renderSide() {
+  const fabric = state.section === "fabric";
+  const config = state.section === "jacket" || state.section === "trousers" || state.section === "waistcoat";
+  document.getElementById("searchRow").style.display = fabric ? "flex" : "none";
+  document.getElementById("fabricList").style.display = fabric ? "block" : "none";
+  document.getElementById("configList").style.display = config ? "block" : "none";
 
-  if (USER_IMGS[0]) {
-    const img = document.getElementById("sumPreviewImg");
-    img.src = USER_IMGS[0];
-    img.onerror = () => { img.src = makePreviewSVG(f.hex, ""); };
-  }
+  if (fabric) renderFabricList();
+  if (config) renderConfigList();
+}
+
+function renderSummary() {
+  const f = selectedFabric();
+  document.getElementById("sumPreviewImg").src = ASSETS.suit;
+  document.getElementById("sumTotal").textContent = money(f.price);
 
   const wrap = document.getElementById("sumItems");
   wrap.innerHTML = "";
-  state.jacket.items.slice(0, 4).forEach(it => {
-    const item = document.createElement("div");
-    item.className = "sum-item";
-    const thumb = document.createElement("div");
-    thumb.className = "sum-item-thumb";
-    const img = document.createElement("img");
-    img.src = makeConfigThumb(f.hex, it.thumb);
-    img.alt = it.k;
-    thumb.appendChild(img);
-    const meta = document.createElement("div");
-    meta.innerHTML = `<div class="sum-item-label">${it.k}</div><div class="sum-item-val">${it.v || "–"}</div>`;
-    item.appendChild(thumb);
-    item.appendChild(meta);
-    wrap.appendChild(item);
+  state.jacket.items.forEach((it) => {
+    const row = document.createElement("div");
+    row.className = "sum-item";
+    row.innerHTML = '<div class="sum-thumb"><img src="' + ASSETS.suit + '" alt="' + it.k + '" /></div><div><div class="sum-label">' + it.k + '</div><div class="sum-value">' + it.v + "</div></div>";
+    wrap.appendChild(row);
   });
 }
 
-// ─── FILTER PANEL ────────────────────────────────────────────────────────────
-function renderFilterPanel() {
-  const body = document.getElementById("filterBody");
-  body.innerHTML = "";
+function renderAll() {
+  updateTop();
+  renderTabs();
 
-  // Sort
-  body.appendChild(makeGroup("Sort by", makeSortUI()));
-  // Color
-  body.appendChild(makeGroup("Color", makeColorUI()));
-  // Season
-  body.appendChild(makeGroup("Season", makeCheckUI(SEASONS, state.filters.seasons)));
-  // Design
-  body.appendChild(makeGroup("Design", makeCheckUI(DESIGNS, state.filters.designs)));
-  // Material
-  body.appendChild(makeGroup("Material", makeMaterialUI()));
-  // Mill
-  body.appendChild(makeGroup("Mill", makeCheckUI(MILLS, state.filters.mills)));
+  const summary = state.section === "summary";
+  document.getElementById("mainShell").style.display = summary ? "none" : "flex";
+  document.getElementById("summaryPage").style.display = summary ? "block" : "none";
+
+  if (summary) {
+    renderSummary();
+    return;
+  }
+
+  renderPreview();
+  renderSide();
 }
 
-function makeGroup(title, content) {
-  const g = document.createElement("div");
-  g.className = "fgroup";
-  const head = document.createElement("div");
-  head.className = "fgroup-head";
-  head.innerHTML = `<span class="fgroup-head-label">${title}</span><span class="fgroup-toggle">–</span>`;
-  head.onclick = () => {
-    g.classList.toggle("collapsed");
-    head.querySelector(".fgroup-toggle").textContent = g.classList.contains("collapsed") ? "+" : "–";
-  };
-  const bd = document.createElement("div");
-  bd.className = "fgroup-body";
-  bd.appendChild(content);
-  g.appendChild(head);
-  g.appendChild(bd);
-  return g;
-}
-
-function makeSortUI() {
-  const wrap = document.createElement("div");
-  const opts = [{k:"default",l:"Default"},{k:"newest",l:"Newest"},{k:"priceHigh",l:"Price: High – Low"},{k:"priceLow",l:"Price: Low – High"}];
-  opts.forEach(o => {
-    const lab = document.createElement("label");
-    lab.className = "sort-opt";
-    const inp = document.createElement("input");
-    inp.type = "radio"; inp.name = "fsort"; inp.value = o.k;
-    inp.checked = state.filters.sort === o.k;
-    inp.onchange = () => { state.filters.sort = o.k; updateFabricList(); };
-    const sp = document.createElement("span"); sp.textContent = o.l;
-    lab.appendChild(inp); lab.appendChild(sp);
-    wrap.appendChild(lab);
-  });
-  return wrap;
-}
-
-function makeColorUI() {
-  const wrap = document.createElement("div");
-  wrap.className = "color-grid";
-  COLORS.forEach(c => {
-    const lab = document.createElement("label");
-    lab.className = "color-swatch";
-    const inp = document.createElement("input");
-    inp.type = "checkbox"; inp.value = c.k;
-    inp.checked = state.filters.colors.has(c.k);
-    inp.onchange = () => {
-      if (inp.checked) state.filters.colors.add(c.k); else state.filters.colors.delete(c.k);
-      updateFabricList(); updateFilterBadge();
-    };
-    const dot = document.createElement("span");
-    dot.className = "color-dot"; dot.style.background = c.hex;
-    const nm = document.createElement("span");
-    nm.className = "color-name"; nm.textContent = c.k;
-    lab.appendChild(inp); lab.appendChild(dot); lab.appendChild(nm);
-    wrap.appendChild(lab);
-  });
-  return wrap;
-}
-
-function makeCheckUI(items, set) {
-  const wrap = document.createElement("div");
-  items.forEach(s => {
-    const lab = document.createElement("label");
-    lab.className = "check-opt";
-    const inp = document.createElement("input");
-    inp.type = "checkbox"; inp.value = s;
-    inp.checked = set.has(s);
-    inp.onchange = () => {
-      if (inp.checked) set.add(s); else set.delete(s);
-      updateFabricList(); updateFilterBadge();
-    };
-    const sp = document.createElement("span"); sp.textContent = s;
-    lab.appendChild(inp); lab.appendChild(sp);
-    wrap.appendChild(lab);
-  });
-  return wrap;
-}
-
-function makeMaterialUI() {
-  const wrap = document.createElement("div");
-  MATERIAL_TREE.forEach(node => {
-    const parentLab = document.createElement("label");
-    parentLab.className = "check-opt";
-    const parentInp = document.createElement("input");
-    parentInp.type = "checkbox"; parentInp.value = node.k;
-    parentInp.checked = state.filters.materials.has(node.k);
-    parentInp.onchange = () => {
-      if (parentInp.checked) state.filters.materials.add(node.k); else state.filters.materials.delete(node.k);
-      updateFabricList(); updateFilterBadge();
-    };
-    const pSp = document.createElement("span"); pSp.textContent = node.k;
-    parentLab.appendChild(parentInp); parentLab.appendChild(pSp);
-    wrap.appendChild(parentLab);
-
-    const childWrap = document.createElement("div");
-    childWrap.className = "check-indent";
-    childWrap.style.display = "none";
-    node.subs.forEach(s => {
-      const lab = document.createElement("label");
-      lab.className = "check-opt";
-      const inp = document.createElement("input");
-      inp.type = "checkbox"; inp.value = s;
-      inp.checked = state.filters.materials.has(s);
-      inp.onchange = () => {
-        if (inp.checked) state.filters.materials.add(s); else state.filters.materials.delete(s);
-        updateFabricList(); updateFilterBadge();
-      };
-      const sp = document.createElement("span"); sp.textContent = s;
-      lab.appendChild(inp); lab.appendChild(sp);
-      childWrap.appendChild(lab);
-    });
-
-    const vm = document.createElement("button");
-    vm.className = "view-more-btn";
-    vm.textContent = "View more ›";
-    vm.onclick = () => {
-      const open = childWrap.style.display !== "none";
-      childWrap.style.display = open ? "none" : "block";
-      vm.textContent = open ? "View more ›" : "View less ‹";
-    };
-    wrap.appendChild(vm);
-    wrap.appendChild(childWrap);
-  });
-  return wrap;
-}
-
-function updateFabricList() {
-  if (state.section === "fabric") renderFabricList();
-}
-
-function updateFilterBadge() {
-  let c = state.filters.colors.size + state.filters.seasons.size +
-          state.filters.designs.size + state.filters.materials.size + state.filters.mills.size;
-  const badge = document.getElementById("filterBadge");
-  badge.hidden = c === 0;
-  badge.textContent = c;
-}
-
-function openFilter() {
-  renderFilterPanel();
-  document.getElementById("filterOverlay").classList.add("open");
-  document.body.style.overflow = "hidden";
-}
-function closeFilter() {
-  document.getElementById("filterOverlay").classList.remove("open");
-  document.body.style.overflow = "";
-}
-function onOverlayClick(e) {
-  if (e.target === document.getElementById("filterOverlay")) closeFilter();
-}
-function clearFilters() {
-  state.filters = {sort:"default", colors:new Set(), seasons:new Set(), designs:new Set(), materials:new Set(), mills:new Set()};
-  renderFilterPanel();
-  updateFabricList();
-  updateFilterBadge();
-}
-
-// ─── INFO DIALOG ─────────────────────────────────────────────────────────────
-function openInfo(f) {
-  document.getElementById("infoTitle").textContent = f.name;
-  document.getElementById("infoBody").textContent =
-    `Season: ${f.season} · Design: ${f.design} · Materials: ${f.materials.join(", ")} · Mill: ${f.mill}`;
-  document.getElementById("infoDialogWrap").classList.add("open");
-}
-function closeInfo() {
-  document.getElementById("infoDialogWrap").classList.remove("open");
-}
-function onInfoOverlayClick(e) {
-  if (e.target === document.getElementById("infoDialogWrap")) closeInfo();
-}
-
-// ─── NAVIGATION ──────────────────────────────────────────────────────────────
-function switchSection(sec) {
-  state.section = sec;
+function switchSection(section) {
+  state.section = section;
   state.slide = 0;
   state.wearing = false;
   renderAll();
@@ -1213,14 +1108,172 @@ function onSearch() {
   if (state.section === "fabric") renderFabricList();
 }
 
-// ─── INIT ────────────────────────────────────────────────────────────────────
+function openInfo(f) {
+  document.getElementById("infoTitle").textContent = f.name;
+  document.getElementById("infoText").textContent = "Season: " + f.season + " | Design: " + f.design + " | Materials: " + f.materials.join(", ") + " | Mill: " + f.mill;
+  document.getElementById("infoModal").classList.add("open");
+}
+
+function closeInfo() {
+  document.getElementById("infoModal").classList.remove("open");
+}
+
+function onInfoOverlay(event) {
+  if (event.target.id === "infoModal") closeInfo();
+}
+
+function updateFilterBadge() {
+  const count = state.filters.colors.size + state.filters.seasons.size + state.filters.designs.size + state.filters.materials.size + state.filters.mills.size;
+  const badge = document.getElementById("filterBadge");
+  badge.hidden = count === 0;
+  badge.textContent = String(count);
+}
+
+function makeGroup(title, body) {
+  const group = document.createElement("div");
+  group.className = "fgroup";
+
+  const head = document.createElement("div");
+  head.className = "fhead";
+  head.innerHTML = '<span class="fhead-title">' + title + "</span><span>-</span>";
+  head.onclick = () => {
+    group.classList.toggle("collapsed");
+    head.lastElementChild.textContent = group.classList.contains("collapsed") ? "+" : "-";
+  };
+
+  const wrap = document.createElement("div");
+  wrap.className = "fbody";
+  wrap.appendChild(body);
+
+  group.appendChild(head);
+  group.appendChild(wrap);
+  return group;
+}
+
+function makeSortUI() {
+  const wrap = document.createElement("div");
+  const opts = [
+    { k: "default", l: "Default" },
+    { k: "newest", l: "Newest" },
+    { k: "priceHigh", l: "Price: High - Low" },
+    { k: "priceLow", l: "Price: Low - High" }
+  ];
+
+  opts.forEach((o) => {
+    const label = document.createElement("label");
+    label.className = "opt";
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "sort";
+    input.checked = state.filters.sort === o.k;
+    input.onchange = () => {
+      state.filters.sort = o.k;
+      renderFabricList();
+    };
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(o.l));
+    wrap.appendChild(label);
+  });
+
+  return wrap;
+}
+
+function makeCheckUI(values, set) {
+  const wrap = document.createElement("div");
+  values.forEach((value) => {
+    const label = document.createElement("label");
+    label.className = "opt";
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.checked = set.has(value);
+    input.onchange = () => {
+      if (input.checked) set.add(value);
+      else set.delete(value);
+      renderFabricList();
+      updateFilterBadge();
+    };
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(value));
+    wrap.appendChild(label);
+  });
+  return wrap;
+}
+
+function makeColorUI() {
+  const wrap = document.createElement("div");
+  wrap.className = "colors";
+
+  COLORS.forEach((c) => {
+    const label = document.createElement("label");
+    label.className = "color-opt";
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.checked = state.filters.colors.has(c.k);
+    input.onchange = () => {
+      if (input.checked) state.filters.colors.add(c.k);
+      else state.filters.colors.delete(c.k);
+      renderFabricList();
+      updateFilterBadge();
+    };
+
+    const dot = document.createElement("span");
+    dot.className = "color-dot";
+    dot.style.background = c.hex;
+
+    label.appendChild(input);
+    label.appendChild(dot);
+    label.appendChild(document.createTextNode(c.k));
+    wrap.appendChild(label);
+  });
+
+  return wrap;
+}
+
+function renderFilterPanel() {
+  const body = document.getElementById("filterBody");
+  body.innerHTML = "";
+  body.appendChild(makeGroup("Sort by", makeSortUI()));
+  body.appendChild(makeGroup("Color", makeColorUI()));
+  body.appendChild(makeGroup("Season", makeCheckUI(SEASONS, state.filters.seasons)));
+  body.appendChild(makeGroup("Design", makeCheckUI(DESIGNS, state.filters.designs)));
+  body.appendChild(makeGroup("Material", makeCheckUI(MATERIALS, state.filters.materials)));
+  body.appendChild(makeGroup("Mill", makeCheckUI(MILLS, state.filters.mills)));
+}
+
+function openFilter() {
+  renderFilterPanel();
+  document.getElementById("filterOverlay").classList.add("open");
+}
+
+function closeFilter() {
+  document.getElementById("filterOverlay").classList.remove("open");
+}
+
+function onOverlayClick(event) {
+  if (event.target.id === "filterOverlay") closeFilter();
+}
+
+function clearFilters() {
+  state.filters = {
+    sort: "default",
+    colors: new Set(),
+    seasons: new Set(),
+    designs: new Set(),
+    materials: new Set(),
+    mills: new Set()
+  };
+  renderFilterPanel();
+  renderFabricList();
+  updateFilterBadge();
+}
+
 (function init() {
-  // Read section from URL
-  const params = new URLSearchParams(location.search);
-  const sec = params.get("section");
-  if (sec && ["fabric","jacket","trousers","waistcoat","summary"].includes(sec)) {
-    state.section = sec;
+  const section = new URLSearchParams(location.search).get("section");
+  if (["fabric", "jacket", "trousers", "waistcoat", "summary"].includes(section)) {
+    state.section = section;
   }
+
+  updateFilterBadge();
   renderAll();
 })();
 </script>
