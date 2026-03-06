@@ -409,33 +409,33 @@ img {
 .summary-page {
   display: none;
   height: calc(100% - 40px);
-  background: #f8f8f8;
+  background: #f1f1f1;
   position: relative;
 }
 
 .summary-inner {
-  height: calc(100% - 62px);
+  height: 100%;
   overflow-y: auto;
-  padding: 26px 24px 12px;
+  padding: 22px 28px 18px;
 }
 
 .summary-title {
   text-align: center;
-  font-size: 48px;
+  font-size: 42px;
   font-weight: 700;
-  letter-spacing: -0.5px;
-  margin-bottom: 20px;
-  scale: 0.45;
+  letter-spacing: -0.3px;
+  margin-bottom: 24px;
 }
 
 .summary-grid {
   display: grid;
-  grid-template-columns: 1fr 360px;
-  gap: 22px;
+  grid-template-columns: minmax(420px, 1fr) 220px;
+  gap: 26px;
+  margin-bottom: 26px;
 }
 
 .summary-preview {
-  background: #e3e3e3;
+  background: #e5e5e5;
   border: 1px solid #ececec;
   min-height: 560px;
   display: flex;
@@ -445,52 +445,53 @@ img {
 }
 
 .summary-preview img {
-  max-width: 78%;
-  max-height: 92%;
+  max-width: 72%;
+  max-height: 90%;
   object-fit: contain;
 }
 
 .summary-panel {
-  background: #fff;
-  border: 1px solid #efefef;
-  padding: 14px;
+  padding: 10px 0;
 }
 
 .summary-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .summary-head h3 {
-  font-size: 24px;
-  font-weight: 700;
-  scale: 0.5;
-  transform-origin: left center;
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
 }
 
 .sum-items {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 6px;
 }
 
 .sum-item {
   display: grid;
-  grid-template-columns: 62px 1fr;
-  gap: 8px;
+  grid-template-columns: 52px 1fr;
+  gap: 10px;
   align-items: center;
 }
 
 .sum-thumb {
-  width: 62px;
-  height: 62px;
+  width: 52px;
+  height: 52px;
+  border: 1px solid #ececec;
+  border-radius: 2px;
+  overflow: hidden;
 }
 
 .sum-label {
   font-size: 13px;
   font-weight: 600;
+  color: #444;
 }
 
 .sum-value {
@@ -499,38 +500,89 @@ img {
   color: #8a8a8a;
 }
 
-.summary-footer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 62px;
-  border-top: 1px solid #e8e8e8;
-  background: #fff;
+.sum-see {
+  margin-top: 12px;
+  border: 1px solid #e3e3e3;
+  background: #f5f5f5;
+  color: #9a9a9a;
+  height: 28px;
+  border-radius: 16px;
+  padding: 0 12px;
+  font-size: 11px;
+  cursor: default;
+}
+
+.summary-passport-grid {
+  margin-top: -2px;
+}
+
+.summary-passport {
+  background: transparent;
+  padding: 8px 0 0;
+}
+
+.sp-head {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 24px;
+  margin-bottom: 10px;
 }
 
-.totals {
-  display: flex;
-  gap: 38px;
+.sp-title {
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.total-k {
+.sp-label {
+  font-size: 12px;
+  color: #7f7f7f;
+  margin: 10px 0 6px;
+}
+
+.sp-box {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #ededed;
+  background: #f7f7f7;
+  border-radius: 2px;
+  padding: 12px;
+  font-size: 12px;
+  color: #8b8b8b;
+  text-align: center;
+}
+
+.sp-box.done {
+  background: #fff;
+  color: #2a2a2a;
+  font-weight: 600;
+}
+
+.sp-meta {
+  margin-top: 18px;
+}
+
+.sp-meta-k {
   font-size: 11px;
   color: #8b8b8b;
 }
 
-.total-v {
+.sp-meta-v {
   margin-top: 2px;
   font-size: 13px;
   font-weight: 700;
 }
 
-.summary-actions {
+.sp-total {
+  margin-top: 10px;
+}
+
+.sp-actions {
+  margin-top: 12px;
   display: flex;
+  flex-direction: column;
   gap: 8px;
 }
 
@@ -554,6 +606,11 @@ img {
   background: #1f1f1f;
   border-color: #1f1f1f;
   color: #fff;
+}
+
+.sp-actions .btn-dark,
+.sp-actions .btn-outline {
+  width: 100%;
 }
 
 .overlay {
@@ -698,6 +755,222 @@ img {
   margin-bottom: 14px;
 }
 
+.size-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.24);
+  z-index: 40;
+}
+
+.size-overlay.open {
+  display: block;
+}
+
+.size-panel {
+  margin-left: auto;
+  width: min(430px, 100%);
+  height: 100%;
+  background: #f3f3f3;
+  border-left: 1px solid #e3e3e3;
+  display: flex;
+  flex-direction: column;
+}
+
+.size-head {
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 14px;
+}
+
+.size-close {
+  border: none;
+  background: transparent;
+  color: #8f8f8f;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.size-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 24px 20px;
+}
+
+.size-title {
+  font-size: 34px;
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin: 0 0 10px;
+}
+
+.size-sub {
+  font-size: 12px;
+  color: #6c6c6c;
+  margin-bottom: 16px;
+}
+
+.passport-block {
+  margin: 20px 0;
+}
+
+.passport-label {
+  font-size: 12px;
+  color: #6d6d6d;
+  margin-bottom: 8px;
+}
+
+.passport-card {
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 4px;
+  min-height: 72px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.passport-main {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.passport-sub {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #7a7a7a;
+}
+
+.passport-add {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: #f2f2f2;
+  color: #999;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.passport-check {
+  color: #5869ff;
+  font-size: 24px;
+}
+
+.size-help {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 12px;
+  color: #777;
+}
+
+.size-help strong {
+  color: #1f1f1f;
+}
+
+.selector-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 0 2px;
+}
+
+.selector-head strong {
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+
+.selector-head span {
+  display: block;
+  font-size: 11px;
+  color: #777;
+  margin-top: 2px;
+}
+
+.selector-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.size-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.size-opt {
+  border: 1px solid #e4e4e4;
+  background: #fff;
+  border-radius: 4px;
+  height: 38px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #404040;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.size-opt.active {
+  border-color: #232323;
+  background: #f0f0f0;
+  color: #111;
+}
+
+.size-opt:hover {
+  border-color: #cfcfcf;
+}
+
+.size-foot {
+  border-top: 1px solid #e2e2e2;
+  padding: 16px;
+}
+
+.size-foot-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.size-ghost,
+.size-next {
+  height: 46px;
+  border-radius: 3px;
+  border: 1px solid #dcdcdc;
+  background: #fff;
+  color: #494949;
+  font-weight: 500;
+}
+
+.size-next[disabled] {
+  color: #b9b9b9;
+  cursor: not-allowed;
+}
+
+.size-next:not([disabled]) {
+  background: #1f1f1f;
+  border-color: #1f1f1f;
+  color: #fff;
+}
+
+.size-confirm {
+  width: 100%;
+  height: 46px;
+  border-radius: 3px;
+  border: 1px solid #1f1f1f;
+  background: #1f1f1f;
+  color: #fff;
+  font-weight: 600;
+}
+
 @media (max-width: 980px) {
   .app-frame {
     width: 100%;
@@ -723,6 +996,10 @@ img {
 
   .summary-grid {
     grid-template-columns: 1fr;
+  }
+
+  .summary-panel {
+    padding: 0 6px 8px;
   }
 }
 </style>
@@ -788,31 +1065,58 @@ img {
         <div class="summary-panel">
           <div class="summary-head">
             <h3>Jacket</h3>
-            <button class="icon-btn" onclick="switchSection('jacket');showConfigurator()">
+            <button class="icon-btn" onclick="switchSection('jacket')">
               <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
             </button>
           </div>
-          <div class="sum-items" id="sumItems"></div>
+          <div class="sum-items" id="sumJacketItems"></div>
+          <button class="sum-see" type="button">See all details</button>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-preview">
+          <img id="sumTrousersPreview" src="assets/pant.png" alt="Trousers summary" />
+        </div>
+        <div class="summary-panel">
+          <div class="summary-head">
+            <h3>Trousers</h3>
+            <button class="icon-btn" onclick="switchSection('trousers')">
+              <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+          </div>
+          <div class="sum-items" id="sumTrouserItems"></div>
+          <button class="sum-see" type="button">See all details</button>
+        </div>
+      </div>
+      <div class="summary-grid summary-passport-grid">
+      <div></div>
+      <div class="summary-passport">
+        <div class="sp-head">
+          <div class="sp-title">Size Passport</div>
+          <button class="icon-btn" aria-label="Edit sizes" onclick="openSizePassport()">
+            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+        </div>
+        <div class="sp-label">Jacket</div>
+        <div class="sp-box" id="sumPassportJacket">No size selected yet</div>
+        <div class="sp-label">Trousers</div>
+        <div class="sp-box" id="sumPassportTrousers">No size selected yet</div>
+
+        <div class="sp-meta">
+          <div class="sp-meta-k">Delivery time</div>
+          <div class="sp-meta-v">2-3 weeks</div>
+        </div>
+        <div class="sp-meta sp-total">
+          <div class="sp-meta-k">Total</div>
+          <div class="sp-meta-v" id="sumTotal">$1133</div>
+        </div>
+
+        <div class="sp-actions">
+          <button class="btn-dark" id="selectSizesBtn" onclick="openSizePassport()">Select sizes</button>
         </div>
       </div>
     </div>
-
-    <div class="summary-footer">
-      <div class="totals">
-        <div>
-          <div class="total-k">Total</div>
-          <div class="total-v" id="sumTotal">$1133</div>
-        </div>
-        <div>
-          <div class="total-k">Delivery time</div>
-          <div class="total-v">2-3 weeks</div>
-        </div>
-      </div>
-      <div class="summary-actions">
-        <button class="icon-btn" aria-label="Save"><svg viewBox="0 0 24 24"><path d="M5 4h14v17l-7-4-7 4z"/></svg></button>
-        <button class="btn-outline" onclick="showConfigurator();switchSection('jacket')">Finish in-store</button>
-        <button class="btn-dark">Select sizes</button>
-      </div>
     </div>
   </section>
 </div>
@@ -838,13 +1142,24 @@ img {
   </div>
 </div>
 
+<div class="size-overlay" id="sizeOverlay" onclick="onSizeOverlay(event)">
+  <div class="size-panel">
+    <div class="size-head">
+      <button class="size-close" onclick="closeSizePassport()">&times;</button>
+    </div>
+    <div class="size-body" id="sizeBody"></div>
+    <div class="size-foot" id="sizeFoot"></div>
+  </div>
+</div>
+
 <script>
 const ASSETS = {
   model: "assets/ai-model-removebg-preview.png",
-  suit: "assets/image-removebg-preview (4).png"
+  suit: "assets/image-removebg-preview (4).png",
+  pant: "assets/pant.png"
 };
 
-const FABRICS = [
+const FABRIC_BASE = [
   { id: "f1", name: "Navy Herringbone Wool Silk Linen", price: 1133, colorKey: "Blue", season: "All Season", design: "Herringbone", materials: ["Wool", "Silk", "Linen"], mill: "Angelo (IT)" },
   { id: "f2", name: "Navy Pure Linen", price: 1023, colorKey: "Blue", season: "Spring/Summer", design: "Plain", materials: ["Linen"], mill: "Baird McNutt (GB)" },
   { id: "f3", name: "Navy Pure Wool Seersucker", price: 1103, colorKey: "Blue", season: "All Season", design: "Plain", materials: ["Wool"], mill: "Drago (IT)" },
@@ -856,6 +1171,12 @@ const FABRICS = [
   { id: "f9", name: "Burgundy Stripe Wool Silk Linen", price: 1133, colorKey: "Red", season: "All Season", design: "Stripe", materials: ["Wool", "Silk", "Linen"], mill: "Botto Giuseppe (IT)" },
   { id: "f10", name: "Red Wool Silk Linen", price: 1133, colorKey: "Red", season: "All Season", design: "Plain", materials: ["Wool", "Silk", "Linen"], mill: "Marling & Evans (GB)" }
 ];
+const FABRICS = FABRIC_BASE.map((f) => ({
+  ...f,
+  swatchImg: ASSETS.suit,
+  previewSlides: [ASSETS.suit, ASSETS.pant],
+  wearingImg: ASSETS.model
+}));
 
 const COLORS = [
   { k: "Blue", hex: "#5a6670" }, { k: "Brown", hex: "#b28564" }, { k: "Purple", hex: "#875f96" }, { k: "Grey", hex: "#a9a9a9" },
@@ -867,12 +1188,25 @@ const SEASONS = ["All Season", "Spring/Summer", "Fall/Winter"];
 const DESIGNS = ["Bird's eye", "Check", "Herringbone", "Houndstooth", "Plain", "Stripe"];
 const MATERIALS = ["Wool", "Silk", "Linen", "Cotton", "Cashmere", "Alpaca"];
 const MILLS = ["Angelo (IT)", "Baird McNutt (GB)", "Botto Giuseppe (IT)", "Colombo (IT)", "Drago (IT)", "E. Thomas (IT)", "Ferla (IT)", "Leomaster (IT)", "Libecco (BE)", "Marling & Evans (GB)"];
+const SIZE_TABLE = {
+  jacket: {
+    title: "Select your jacket size",
+    regular: ["30", "32", "34", "36", "38", "40", "42", "44", "46", "48", "50", "52", "54", "56", "58", "60"],
+    long: ["36L", "38L", "40L", "42L", "44L", "46L", "48L", "50L", "52L", "54L"],
+    short: ["34S", "36S", "38S", "40S", "42S", "44S", "46S", "48S", "50S", "52S", "54S", "56S"]
+  },
+  trousers: {
+    title: "Select your trousers size",
+    regular: ["24", "26", "28", "30", "32", "34", "36", "38", "40", "42", "44", "46", "48", "50", "52", "54"],
+    long: ["30L", "32L", "34L", "36L", "38L", "40L", "42L", "44L", "46L", "48L"],
+    short: ["28S", "30S", "32S", "34S", "36S", "38S", "40S", "42S", "44S", "46S", "48S", "50S"]
+  }
+};
 
 const state = {
   section: "fabric",
   selectedId: "f1",
   slide: 0,
-  totalSlides: 3,
   wearing: false,
   q: "",
   filters: {
@@ -886,10 +1220,10 @@ const state = {
   jacket: {
     style: "Milano",
     items: [
-      { k: "Closure", v: "1 Button" },
+      { k: "Closure", v: "2 Button" },
       { k: "Button", v: "Dark & Light Brown" },
       { k: "Lining", v: "Full Lined" },
-      { k: "Lapel", v: "Peak" },
+      { k: "Lapel", v: "Notch" },
       { k: "Monogram", v: "-" }
     ]
   },
@@ -898,10 +1232,16 @@ const state = {
     items: [
       { k: "Waistband", v: "Standard button" },
       { k: "Pocket", v: "Slanted" },
-      { k: "Pleat", v: "Standard Single Pleat" },
-      { k: "Hem Finishing", v: "Turn Up 5 cm" },
+      { k: "Pleat", v: "None" },
+      { k: "Hem Finishing", v: "Plain" },
       { k: "Button", v: "Dark & Light Brown" }
     ]
+  },
+  sizes: {
+    jacket: "",
+    trousers: "",
+    mode: "passport",
+    pending: ""
   }
 };
 
@@ -913,10 +1253,18 @@ function selectedFabric() {
   return FABRICS.find((f) => f.id === state.selectedId) || FABRICS[0];
 }
 
+function selectedSlides() {
+  const f = selectedFabric();
+  const slides = Array.isArray(f.previewSlides) ? f.previewSlides.filter(Boolean) : [];
+  return slides.length ? slides : [ASSETS.suit, ASSETS.pant];
+}
+
 function stageImage() {
-  if (state.wearing) return ASSETS.model;
-  if (state.section === "trousers") return ASSETS.model;
-  return ASSETS.suit;
+  const f = selectedFabric();
+  if (state.wearing) return f.wearingImg || ASSETS.model;
+  const slides = selectedSlides();
+  const idx = ((state.slide % slides.length) + slides.length) % slides.length;
+  return slides[idx];
 }
 
 function updateTop() {
@@ -934,15 +1282,21 @@ function renderTabs() {
 }
 
 function renderPreview() {
+  const slides = selectedSlides();
+  const max = slides.length || 1;
+  if (state.slide >= max) state.slide = 0;
+
   const img = document.getElementById("previewImg");
   img.src = stageImage();
   img.classList.remove("fading");
 
-  document.getElementById("wearThumbImg").src = ASSETS.model;
+  const f = selectedFabric();
+  const currentSlideSrc = slides[state.slide] || ASSETS.suit;
+  document.getElementById("wearThumbImg").src = state.wearing ? currentSlideSrc : (f.wearingImg || ASSETS.model);
 
   const dots = document.getElementById("dotsRow");
   dots.innerHTML = "";
-  for (let i = 0; i < state.totalSlides; i += 1) {
+  for (let i = 0; i < slides.length; i += 1) {
     const dot = document.createElement("button");
     dot.className = "dot" + (state.slide === i ? " active" : "");
     dot.onclick = () => {
@@ -952,6 +1306,10 @@ function renderPreview() {
     };
     dots.appendChild(dot);
   }
+
+  const multi = slides.length > 1;
+  document.getElementById("prevBtn").style.display = multi ? "block" : "none";
+  document.getElementById("nextBtn").style.display = multi ? "block" : "none";
 }
 
 function applyFilters(list) {
@@ -981,7 +1339,7 @@ function renderFabricList() {
 
     const thumb = document.createElement("div");
     thumb.className = "fabric-thumb";
-    thumb.innerHTML = '<img src="' + ASSETS.suit + '" alt="' + f.name + '" />';
+    thumb.innerHTML = '<img src="' + (f.swatchImg || ASSETS.suit) + '" alt="' + f.name + '" />';
     if (state.selectedId === f.id) {
       const info = document.createElement("button");
       info.className = "info-btn";
@@ -1043,19 +1401,157 @@ function renderSide() {
   if (config) renderConfigList();
 }
 
+function hasAllSizes() {
+  return Boolean(state.sizes.jacket && state.sizes.trousers);
+}
+
+function openSizePassport() {
+  state.sizes.mode = "passport";
+  state.sizes.pending = "";
+  renderSizePanel();
+  document.getElementById("sizeOverlay").classList.add("open");
+}
+
+function closeSizePassport() {
+  document.getElementById("sizeOverlay").classList.remove("open");
+}
+
+function onSizeOverlay(event) {
+  if (event.target.id === "sizeOverlay") closeSizePassport();
+}
+
+function enterSizeSelector(type) {
+  state.sizes.mode = type;
+  state.sizes.pending = state.sizes[type] || "";
+  renderSizePanel();
+}
+
+function pickSize(value) {
+  state.sizes.pending = value;
+  renderSizePanel();
+}
+
+function nextSizeStep() {
+  if (!state.sizes.pending) return;
+  const type = state.sizes.mode;
+  state.sizes[type] = state.sizes.pending;
+  state.sizes.mode = "passport";
+  state.sizes.pending = "";
+  renderSizePanel();
+  renderSummary();
+}
+
+function confirmSizePassport() {
+  if (hasAllSizes()) {
+    closeSizePassport();
+  }
+}
+
+function renderSizePanel() {
+  const body = document.getElementById("sizeBody");
+  const foot = document.getElementById("sizeFoot");
+  const mode = state.sizes.mode;
+  const sumJacketPreview = document.getElementById("sumPreviewImg");
+  const sumTrousersPreview = document.getElementById("sumTrousersPreview");
+  if (sumJacketPreview) sumJacketPreview.src = ASSETS.suit;
+  if (sumTrousersPreview) sumTrousersPreview.src = ASSETS.pant;
+
+  if (mode === "passport") {
+    const jacketDone = Boolean(state.sizes.jacket);
+    const trouserDone = Boolean(state.sizes.trousers);
+
+    body.innerHTML = ""
+      + '<div class="size-title">Your Size Passport</div>'
+      + '<div class="size-sub">Already have saved sizes? <strong>Log in</strong></div>'
+      + '<div class="passport-block">'
+      + '  <div class="passport-label">Jacket</div>'
+      + "  <button class=\"passport-card\" onclick=\"enterSizeSelector('jacket')\">"
+      + "    <div><div class=\"passport-main\">" + (jacketDone ? ("Size " + state.sizes.jacket) : "Add jacket size") + "</div>"
+      + "    <div class=\"passport-sub\">" + (jacketDone ? "Created Online just now" : "") + "</div></div>"
+      + "    <span class=\"" + (jacketDone ? "passport-check" : "passport-add") + "\">" + (jacketDone ? "&#10003;" : "+") + "</span>"
+      + "  </button>"
+      + "</div>"
+      + '<div class="passport-block">'
+      + '  <div class="passport-label">Trousers</div>'
+      + "  <button class=\"passport-card\" onclick=\"enterSizeSelector('trousers')\">"
+      + "    <div><div class=\"passport-main\">" + (trouserDone ? ("Size " + state.sizes.trousers) : "Add trousers size") + "</div>"
+      + "    <div class=\"passport-sub\">" + (trouserDone ? "Created Online just now" : "") + "</div></div>"
+      + "    <span class=\"" + (trouserDone ? "passport-check" : "passport-add") + "\">" + (trouserDone ? "&#10003;" : "+") + "</span>"
+      + "  </button>"
+      + "</div>"
+      + '<div class="size-help">Need help? <strong>Get measured in-store</strong></div>';
+
+    foot.innerHTML = '<button class="size-confirm" onclick="confirmSizePassport()">' + (hasAllSizes() ? "Checkout" : "Confirm") + "</button>";
+    return;
+  }
+
+  const table = SIZE_TABLE[mode];
+  const selectedNow = state.sizes.pending ? ("Selected size: " + state.sizes.pending) : "Pick one size to continue";
+  const makeCol = (values) => {
+    return "<div class=\"size-col\">"
+      + values.map((v) => "<button class=\"size-opt" + (state.sizes.pending === v ? " active" : "") + "\" onclick=\"pickSize('" + v + "')\">" + v + "</button>").join("")
+      + "</div>";
+  };
+
+  body.innerHTML = ""
+    + '<div class="size-title">' + table.title + "</div>"
+    + '<div class="size-sub">' + selectedNow + "</div>"
+    + '<div class="selector-head">'
+    + '  <div><strong>Regular</strong><span>5.5 - 6.1"</span></div>'
+    + '  <div><strong>Long</strong><span>&gt; 6.1"</span></div>'
+    + '  <div><strong>Short</strong><span>&lt; 5.5"</span></div>'
+    + "</div>"
+    + '<div class="selector-grid">'
+    + makeCol(table.regular)
+    + makeCol(table.long)
+    + makeCol(table.short)
+    + "</div>";
+
+  foot.innerHTML = ""
+    + '<div class="size-foot-row">'
+    + '  <button class="size-ghost" type="button">Size guide</button>'
+    + '  <button class="size-next" type="button" ' + (state.sizes.pending ? "" : "disabled") + ' onclick="nextSizeStep()">Next</button>'
+    + "</div>";
+}
+
 function renderSummary() {
   const f = selectedFabric();
   document.getElementById("sumPreviewImg").src = ASSETS.suit;
+  document.getElementById("sumTrousersPreview").src = ASSETS.pant;
   document.getElementById("sumTotal").textContent = money(f.price);
 
-  const wrap = document.getElementById("sumItems");
-  wrap.innerHTML = "";
-  state.jacket.items.forEach((it) => {
+  const jacketWrap = document.getElementById("sumJacketItems");
+  const trousersWrap = document.getElementById("sumTrouserItems");
+  jacketWrap.innerHTML = "";
+  trousersWrap.innerHTML = "";
+
+  state.jacket.items.slice(0, 4).forEach((it) => {
     const row = document.createElement("div");
     row.className = "sum-item";
     row.innerHTML = '<div class="sum-thumb"><img src="' + ASSETS.suit + '" alt="' + it.k + '" /></div><div><div class="sum-label">' + it.k + '</div><div class="sum-value">' + it.v + "</div></div>";
-    wrap.appendChild(row);
+    jacketWrap.appendChild(row);
   });
+
+  state.trousers.items.slice(0, 4).forEach((it) => {
+    const row = document.createElement("div");
+    row.className = "sum-item";
+    row.innerHTML = '<div class="sum-thumb"><img src="' + ASSETS.pant + '" alt="' + it.k + '" /></div><div><div class="sum-label">' + it.k + '</div><div class="sum-value">' + it.v + "</div></div>";
+    trousersWrap.appendChild(row);
+  });
+
+  const passJacket = document.getElementById("sumPassportJacket");
+  const passTrousers = document.getElementById("sumPassportTrousers");
+  if (passJacket) {
+    passJacket.textContent = state.sizes.jacket ? ("Size " + state.sizes.jacket) : "No size selected yet";
+    passJacket.classList.toggle("done", Boolean(state.sizes.jacket));
+  }
+  if (passTrousers) {
+    passTrousers.textContent = state.sizes.trousers ? ("Size " + state.sizes.trousers) : "No size selected yet";
+    passTrousers.classList.toggle("done", Boolean(state.sizes.trousers));
+  }
+
+  const sizeBtn = document.getElementById("selectSizesBtn");
+  if (sizeBtn) sizeBtn.textContent = hasAllSizes() ? "Checkout" : "Select sizes";
 }
 
 function renderAll() {
@@ -1087,13 +1583,10 @@ function goSummary() {
   renderAll();
 }
 
-function showConfigurator() {
-  state.section = "fabric";
-  renderAll();
-}
-
 function changeSlide(dir) {
-  state.slide = (state.slide + dir + state.totalSlides) % state.totalSlides;
+  const slides = selectedSlides();
+  const total = slides.length || 1;
+  state.slide = (state.slide + dir + total) % total;
   state.wearing = false;
   renderPreview();
 }
@@ -1269,7 +1762,7 @@ function clearFilters() {
 
 (function init() {
   const section = new URLSearchParams(location.search).get("section");
-  if (["fabric", "jacket", "trousers", "waistcoat", "summary"].includes(section)) {
+  if (["fabric", "summary"].includes(section)) {
     state.section = section;
   }
 
@@ -1279,3 +1772,4 @@ function clearFilters() {
 </script>
 </body>
 </html>
+
