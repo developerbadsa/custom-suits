@@ -1,0 +1,1968 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Suitsupply - Custom Made</title>
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "Segoe UI", Arial, sans-serif;
+  color: #1f1f1f;
+  background: #ececec;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+img {
+  display: block;
+}
+
+.app-frame {
+  width: min(1540px, calc(100vw - 64px));
+  height: min(860px, calc(100vh - 64px));
+  margin: 32px auto;
+  background: #e6e6e6;
+  border: 1px solid #dfdfdf;
+}
+
+
+
+
+.shell {
+  height: calc(100% - 40px);
+  display: flex;
+}
+
+.stage {
+  flex: 1;
+  background: #e2e2e2;
+  border-right: 1px solid #d7d7d7;
+  position: relative;
+  overflow: hidden;
+}
+
+.price-box {
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  z-index: 2;
+  line-height: 1.2;
+}
+
+.price-total {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.price-delivery {
+  font-size: 12px;
+  color: #6f6f6f;
+}
+
+.finish-btn {
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  z-index: 2;
+  border: 1px solid transparent;
+  background: #f4f4f4;
+  color: #6a6a6a;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  height: 34px;
+  padding: 0 18px;
+  cursor: pointer;
+}
+
+.finish-btn.dark {
+  background: #191919;
+  color: #fff;
+}
+
+.preview-wrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 70px 70px 46px;
+}
+
+.preview-img {
+  max-width: min(72%, 640px);
+  max-height: calc(100% - 4px);
+  object-fit: contain;
+  transition: opacity 0.2s ease, transform 0.22s ease;
+  transform-origin: 50% 50%;
+  will-change: transform;
+}
+
+.preview-img.fading {
+  opacity: 0;
+}
+
+.hover-zoom-cursor {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #d8d8d8;
+  background: rgba(245, 245, 245, 0.95);
+  color: #606060;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 5;
+}
+
+.hover-zoom-cursor.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 26px;
+  height: 26px;
+  border: none;
+  background: transparent;
+  color: #b8b8b8;
+  cursor: pointer;
+}
+
+.nav-arrow.left {
+  left: 10px;
+}
+
+.nav-arrow.right {
+  right: 10px;
+}
+
+.nav-arrow svg {
+  width: 17px;
+  height: 17px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.dots-row {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  border: none;
+  background: #c2c2c2;
+  cursor: pointer;
+}
+
+.dot.active {
+  background: #8e8e8e;
+}
+
+.wear-thumb {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  width: 62px;
+  height: 74px;
+  border-radius: 6px;
+  border: 1px solid #d6d6d6;
+  background: #fff;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.wear-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.sidebar {
+  width: 286px;
+  min-width: 286px;
+  background: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.tab-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 10px 8px;
+}
+
+.tab {
+  border: none;
+  height: 32px;
+  border-radius: 16px;
+  background: transparent;
+  color: #727272;
+  font-size: 12px;
+  padding: 0 12px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #efefef;
+  color: #363636;
+  font-weight: 600;
+}
+
+.search-row {
+  display: flex;
+  gap: 8px;
+  padding: 0 10px 8px;
+  border-bottom: 1px solid #efefef;
+}
+
+.search-box,
+.filter-btn {
+  height: 30px;
+  border: 1px solid #e4e4e4;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  background: #fff;
+}
+
+.search-box {
+  flex: 1;
+  padding: 0 10px;
+  gap: 6px;
+}
+
+.search-box svg,
+.filter-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: #919191;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.search-box input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 12px;
+  color: #4a4a4a;
+  background: transparent;
+}
+
+.search-box input::placeholder {
+  color: #9a9a9a;
+}
+
+.filter-btn {
+  width: 120px;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #4b4b4b;
+  cursor: pointer;
+  position: relative;
+}
+
+.filter-badge {
+  position: absolute;
+  right: -3px;
+  top: -3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #1d1d1d;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.filter-badge[hidden] {
+  display: none;
+}
+
+.list {
+  overflow-y: auto;
+  padding: 8px 8px 10px;
+  flex: 1;
+}
+
+.fabric-item,
+.config-row,
+.style-card {
+  display: grid;
+  grid-template-columns: 90px 1fr 14px;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #efefef;
+  border-radius: 8px;
+  background: #fff;
+  padding: 6px;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+.fabric-item.selected {
+  border-color: #b8b8b8;
+}
+
+.fabric-thumb,
+.config-thumb,
+.sum-thumb {
+  width: 90px;
+  height: 90px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 1px solid #ececec;
+  background: #f7f7f7;
+  position: relative;
+}
+
+.fabric-thumb img,
+.config-thumb img,
+.sum-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.info-btn {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid #d2d2d2;
+  position: absolute;
+  left: 6px;
+  bottom: 6px;
+  background: rgba(255, 255, 255, 0.96);
+  color: #6b6b6b;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.fabric-name,
+.config-name {
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: #3a3a3a;
+}
+
+.fabric-price,
+.config-val {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #8a8a8a;
+}
+
+.item-chev {
+  color: #b2b2b2;
+  font-size: 18px;
+}
+
+.config-list {
+  display: none;
+}
+
+.style-card {
+  grid-template-columns: 34px 1fr 20px;
+  padding: 10px;
+}
+
+.style-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f2f2f2;
+  border: 1px solid #e6e6e6;
+}
+
+.style-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #555;
+}
+
+.style-name {
+  font-size: 12px;
+  color: #8a8a8a;
+  margin-top: 2px;
+}
+
+.summary-page {
+  display: none;
+  height: calc(100% - 40px);
+  background: #f1f1f1;
+  position: relative;
+}
+
+.summary-inner {
+  height: 100%;
+  overflow-y: auto;
+  padding: 22px 28px 18px;
+}
+
+.summary-title {
+  text-align: center;
+  font-size: 42px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-bottom: 24px;
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: minmax(420px, 1fr) 220px;
+  gap: 26px;
+  margin-bottom: 26px;
+}
+
+.summary-preview {
+  background: #e5e5e5;
+  border: 1px solid #ececec;
+  min-height: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.summary-preview img {
+  max-width: 72%;
+  max-height: 90%;
+  object-fit: contain;
+}
+
+.summary-panel {
+  padding: 10px 0;
+}
+
+.summary-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.summary-head h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.sum-items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sum-item {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 10px;
+  align-items: center;
+}
+
+.sum-thumb {
+  width: 52px;
+  height: 52px;
+  border: 1px solid #ececec;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.sum-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #444;
+}
+
+.sum-value {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #8a8a8a;
+}
+
+.sum-see {
+  margin-top: 12px;
+  border: 1px solid #e3e3e3;
+  background: #f5f5f5;
+  color: #9a9a9a;
+  height: 28px;
+  border-radius: 16px;
+  padding: 0 12px;
+  font-size: 11px;
+  cursor: default;
+}
+
+.summary-passport-grid {
+  margin-top: -2px;
+}
+
+.summary-passport {
+  background: transparent;
+  padding: 8px 0 0;
+}
+
+.sp-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.sp-title {
+  font-size: 14px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sp-label {
+  font-size: 12px;
+  color: #7f7f7f;
+  margin: 10px 0 6px;
+}
+
+.sp-box {
+  width: 100%;
+  min-height: 44px;
+  border: 1px solid #ededed;
+  background: #f7f7f7;
+  border-radius: 2px;
+  padding: 12px;
+  font-size: 12px;
+  color: #8b8b8b;
+  text-align: center;
+}
+
+.sp-box.done {
+  background: #fff;
+  color: #2a2a2a;
+  font-weight: 600;
+}
+
+.sp-meta {
+  margin-top: 18px;
+}
+
+.sp-meta-k {
+  font-size: 11px;
+  color: #8b8b8b;
+}
+
+.sp-meta-v {
+  margin-top: 2px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.sp-total {
+  margin-top: 10px;
+}
+
+.sp-actions {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-outline,
+.btn-dark {
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 4px;
+  border: 1px solid #d8d8d8;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-outline {
+  background: #fff;
+  color: #444;
+}
+
+.btn-dark {
+  background: #1f1f1f;
+  border-color: #1f1f1f;
+  color: #fff;
+}
+
+.sp-actions .btn-dark,
+.sp-actions .btn-outline {
+  width: 100%;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.22);
+  display: none;
+  z-index: 20;
+}
+
+.overlay.open {
+  display: block;
+}
+
+.filter-panel {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: min(410px, 100%);
+  background: #fff;
+  border-right: 1px solid #ececec;
+  transform: translateX(-100%);
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.overlay.open .filter-panel {
+  transform: translateX(0);
+}
+
+.filter-head {
+  height: 54px;
+  border-bottom: 1px solid #f1f1f1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+}
+
+.filter-title {
+  font-size: 18px;
+  font-weight: 700;
+  scale: 0.6;
+  transform-origin: left center;
+}
+
+.clear-btn,
+.close-btn {
+  border: none;
+  background: transparent;
+  color: #696969;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.filter-body {
+  overflow-y: auto;
+  padding-bottom: 18px;
+}
+
+.fgroup {
+  border-bottom: 1px solid #f3f3f3;
+}
+
+.fhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  cursor: pointer;
+}
+
+.fhead-title {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.fbody {
+  padding: 0 16px 12px;
+}
+
+.fgroup.collapsed .fbody {
+  display: none;
+}
+
+.opt,
+.color-opt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #4e4e4e;
+  margin-bottom: 6px;
+}
+
+.colors {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 12px;
+}
+
+.color-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  border: 1px solid #d2d2d2;
+}
+
+.info-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  z-index: 30;
+}
+
+.info-modal.open {
+  display: flex;
+}
+
+.info-box {
+  width: min(460px, calc(100vw - 28px));
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #e8e8e8;
+  padding: 18px;
+}
+
+.info-box h3 {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.info-box p {
+  font-size: 13px;
+  color: #666;
+  line-height: 1.4;
+  margin-bottom: 14px;
+}
+
+.size-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.24);
+  z-index: 40;
+}
+
+.size-overlay.open {
+  display: block;
+}
+
+.size-panel {
+  margin-left: auto;
+  width: min(430px, 100%);
+  height: 100%;
+  background: #f3f3f3;
+  border-left: 1px solid #e3e3e3;
+  display: flex;
+  flex-direction: column;
+}
+
+.size-head {
+  height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 14px;
+}
+
+.size-close {
+  border: none;
+  background: transparent;
+  color: #8f8f8f;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.size-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 24px 20px;
+}
+
+.size-title {
+  font-size: 34px;
+  line-height: 1.05;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin: 0 0 10px;
+}
+
+.size-sub {
+  font-size: 12px;
+  color: #6c6c6c;
+  margin-bottom: 16px;
+}
+
+.passport-block {
+  margin: 20px 0;
+}
+
+.passport-label {
+  font-size: 12px;
+  color: #6d6d6d;
+  margin-bottom: 8px;
+}
+
+.passport-card {
+  background: #fff;
+  border: 1px solid #ececec;
+  border-radius: 4px;
+  min-height: 72px;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.passport-main {
+  font-size: 17px;
+  font-weight: 600;
+  color: #1f1f1f;
+}
+
+.passport-sub {
+  margin-top: 4px;
+  font-size: 12px;
+  color: #7a7a7a;
+}
+
+.passport-add {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: #f2f2f2;
+  color: #999;
+  font-size: 24px;
+  line-height: 1;
+}
+
+.passport-check {
+  color: #5869ff;
+  font-size: 24px;
+}
+
+.size-help {
+  margin-top: 28px;
+  text-align: center;
+  font-size: 12px;
+  color: #777;
+}
+
+.size-help strong {
+  color: #1f1f1f;
+}
+
+.selector-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 0 2px;
+}
+
+.selector-head strong {
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+
+.selector-head span {
+  display: block;
+  font-size: 11px;
+  color: #777;
+  margin-top: 2px;
+}
+
+.selector-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+
+.size-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.size-opt {
+  border: 1px solid #e4e4e4;
+  background: #fff;
+  border-radius: 4px;
+  height: 38px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #404040;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.size-opt.active {
+  border-color: #232323;
+  background: #f0f0f0;
+  color: #111;
+}
+
+.size-opt:hover {
+  border-color: #cfcfcf;
+}
+
+.size-foot {
+  border-top: 1px solid #e2e2e2;
+  padding: 16px;
+}
+
+.size-foot-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.size-ghost,
+.size-next {
+  height: 46px;
+  border-radius: 3px;
+  border: 1px solid #dcdcdc;
+  background: #fff;
+  color: #494949;
+  font-weight: 500;
+}
+
+.size-next[disabled] {
+  color: #b9b9b9;
+  cursor: not-allowed;
+}
+
+.size-next:not([disabled]) {
+  background: #1f1f1f;
+  border-color: #1f1f1f;
+  color: #fff;
+}
+
+.size-confirm {
+  width: 100%;
+  height: 46px;
+  border-radius: 3px;
+  border: 1px solid #1f1f1f;
+  background: #1f1f1f;
+  color: #fff;
+  font-weight: 600;
+}
+
+@media (max-width: 980px) {
+  .app-frame {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    border: none;
+  }
+
+  .shell {
+    flex-direction: column;
+  }
+
+  .stage {
+    min-height: 320px;
+    border-right: none;
+    border-bottom: 1px solid #d7d7d7;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .summary-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-panel {
+    padding: 0 6px 8px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="app-frame">
+  <div class="shell" id="mainShell">
+    <section class="stage">
+      <div class="price-box">
+        <div class="price-total" id="priceTotal">Total $1133</div>
+        <div class="price-delivery">2-3 week delivery</div>
+      </div>
+
+      <button class="finish-btn" id="finishBtn" onclick="goSummary()">Finish</button>
+
+      <div class="preview-wrap">
+        <img id="previewImg" class="preview-img" src="assets/image-removebg-preview (4).png" alt="Suit preview" />
+      </div>
+
+      <button class="nav-arrow left" id="prevBtn" onclick="changeSlide(-1)" aria-label="Previous">
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="nav-arrow right" id="nextBtn" onclick="changeSlide(1)" aria-label="Next">
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+
+      <div class="dots-row" id="dotsRow"></div>
+
+      <button class="wear-thumb" onclick="toggleWearing()" title="Toggle wearing view">
+        <img id="wearThumbImg" src="assets/ai-model-removebg-preview.png" alt="Wearing" />
+      </button>
+    </section>
+
+    <aside class="sidebar" id="sidebar">
+      <div class="tab-row">
+        <button class="tab" id="tab-fabric" onclick="switchSection('fabric')">Fabric</button>
+      </div>
+
+      <div class="search-row" id="searchRow">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><line x1="16" y1="16" x2="21" y2="21"/></svg>
+          <input id="searchInput" type="search" placeholder="Search" oninput="onSearch()" />
+        </div>
+        <button class="filter-btn" onclick="openFilter()">
+          <svg viewBox="0 0 24 24"><line x1="4" y1="6" x2="20" y2="6"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+          <span>Filter</span>
+          <span class="filter-badge" id="filterBadge" hidden>0</span>
+        </button>
+      </div>
+
+      <div class="list fabric-list" id="fabricList"></div>
+      <div class="list config-list" id="configList"></div>
+    </aside>
+  </div>
+
+  <section class="summary-page" id="summaryPage">
+    <div class="summary-inner">
+      <div class="summary-title">Your custom suit summary</div>
+      <div class="summary-grid">
+        <div class="summary-preview">
+          <img id="sumPreviewImg" src="assets/image-removebg-preview (4).png" alt="Summary" />
+        </div>
+        <div class="summary-panel">
+          <div class="summary-head">
+            <h3>Jacket</h3>
+            <button class="icon-btn" onclick="switchSection('jacket')">
+              <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+          </div>
+          <div class="sum-items" id="sumJacketItems"></div>
+          <button class="sum-see" type="button">See all details</button>
+        </div>
+      </div>
+
+      <div class="summary-grid">
+        <div class="summary-preview">
+          <img id="sumTrousersPreview" src="assets/pant.png" alt="Trousers summary" />
+        </div>
+        <div class="summary-panel">
+          <div class="summary-head">
+            <h3>Trousers</h3>
+            <button class="icon-btn" onclick="switchSection('trousers')">
+              <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            </button>
+          </div>
+          <div class="sum-items" id="sumTrouserItems"></div>
+          <button class="sum-see" type="button">See all details</button>
+        </div>
+      </div>
+      <div class="summary-grid summary-passport-grid">
+      <div></div>
+      <div class="summary-passport">
+        <div class="sp-head">
+          <div class="sp-title">Size Passport</div>
+          <button class="icon-btn" aria-label="Edit sizes" onclick="openSizePassport()">
+            <svg viewBox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+        </div>
+        <div class="sp-label">Jacket</div>
+        <div class="sp-box" id="sumPassportJacket">No size selected yet</div>
+        <div class="sp-label">Trousers</div>
+        <div class="sp-box" id="sumPassportTrousers">No size selected yet</div>
+
+        <div class="sp-meta">
+          <div class="sp-meta-k">Delivery time</div>
+          <div class="sp-meta-v">2-3 weeks</div>
+        </div>
+        <div class="sp-meta sp-total">
+          <div class="sp-meta-k">Total</div>
+          <div class="sp-meta-v" id="sumTotal">$1133</div>
+        </div>
+
+        <div class="sp-actions">
+          <button class="btn-dark" id="selectSizesBtn" onclick="openSizePassport()">Select sizes</button>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+</div>
+
+<div class="overlay" id="filterOverlay" onclick="onOverlayClick(event)">
+  <div class="filter-panel">
+    <div class="filter-head">
+      <div class="filter-title">Filter Fabrics</div>
+      <div>
+        <button class="clear-btn" onclick="clearFilters()">Clear all</button>
+        <button class="close-btn" onclick="closeFilter()">X</button>
+      </div>
+    </div>
+    <div class="filter-body" id="filterBody"></div>
+  </div>
+</div>
+
+<div class="info-modal" id="infoModal" onclick="onInfoOverlay(event)">
+  <div class="info-box">
+    <h3 id="infoTitle">Fabric</h3>
+    <p id="infoText">Details.</p>
+    <button class="btn-outline" onclick="closeInfo()">Close</button>
+  </div>
+</div>
+
+<div class="size-overlay" id="sizeOverlay" onclick="onSizeOverlay(event)">
+  <div class="size-panel">
+    <div class="size-head">
+      <button class="size-close" onclick="closeSizePassport()">&times;</button>
+    </div>
+    <div class="size-body" id="sizeBody"></div>
+    <div class="size-foot" id="sizeFoot"></div>
+  </div>
+</div>
+
+<script>
+const ASSETS = {
+  model: "assets/ai-model-removebg-preview.png",
+  suit: "assets/image-removebg-preview (4).png",
+  pant: "assets/pant.png"
+};
+
+const FABRIC_BASE = [
+  { id: "f1", name: "Navy Herringbone Wool Silk Linen", price: 1133, colorKey: "Blue", season: "All Season", design: "Herringbone", materials: ["Wool", "Silk", "Linen"], mill: "Angelo (IT)" },
+  { id: "f2", name: "Navy Pure Linen", price: 1023, colorKey: "Blue", season: "Spring/Summer", design: "Plain", materials: ["Linen"], mill: "Baird McNutt (GB)" },
+  { id: "f3", name: "Navy Pure Wool Seersucker", price: 1103, colorKey: "Blue", season: "All Season", design: "Plain", materials: ["Wool"], mill: "Drago (IT)" },
+  { id: "f4", name: "Navy Pure Cotton", price: 923, colorKey: "Blue", season: "Spring/Summer", design: "Plain", materials: ["Cotton"], mill: "E. Thomas (IT)" },
+  { id: "f5", name: "Dark Blue Cotton Stretch Seersucker", price: 923, colorKey: "Blue", season: "Spring/Summer", design: "Plain", materials: ["Cotton"], mill: "Ferla (IT)" },
+  { id: "f6", name: "Dark Blue Pure Linen", price: 1023, colorKey: "Blue", season: "Spring/Summer", design: "Plain", materials: ["Linen"], mill: "Libecco (BE)" },
+  { id: "f7", name: "Burgundy Wool Silk Linen", price: 1133, colorKey: "Red", season: "All Season", design: "Plain", materials: ["Wool", "Silk", "Linen"], mill: "Colombo (IT)" },
+  { id: "f8", name: "Burgundy Pure Linen", price: 1023, colorKey: "Red", season: "Spring/Summer", design: "Plain", materials: ["Linen"], mill: "Leomaster (IT)" },
+  { id: "f9", name: "Burgundy Stripe Wool Silk Linen", price: 1133, colorKey: "Red", season: "All Season", design: "Stripe", materials: ["Wool", "Silk", "Linen"], mill: "Botto Giuseppe (IT)" },
+  { id: "f10", name: "Red Wool Silk Linen", price: 1133, colorKey: "Red", season: "All Season", design: "Plain", materials: ["Wool", "Silk", "Linen"], mill: "Marling & Evans (GB)" }
+];
+const FABRICS = FABRIC_BASE.map((f) => ({
+  ...f,
+  swatchImg: ASSETS.suit,
+  previewSlides: [ASSETS.suit, ASSETS.pant],
+  wearingImg: ASSETS.model
+}));
+
+const COLORS = [
+  { k: "Blue", hex: "#5a6670" }, { k: "Brown", hex: "#b28564" }, { k: "Purple", hex: "#875f96" }, { k: "Grey", hex: "#a9a9a9" },
+  { k: "Pink", hex: "#e8b4d8" }, { k: "Yellow", hex: "#ebc900" }, { k: "White", hex: "#f1f1f1" }, { k: "Green", hex: "#8ba397" },
+  { k: "Black", hex: "#111" }, { k: "Red", hex: "#c06262" }, { k: "Orange", hex: "#d58b5c" }
+];
+
+const SEASONS = ["All Season", "Spring/Summer", "Fall/Winter"];
+const DESIGNS = ["Bird's eye", "Check", "Herringbone", "Houndstooth", "Plain", "Stripe"];
+const MATERIALS = ["Wool", "Silk", "Linen", "Cotton", "Cashmere", "Alpaca"];
+const MILLS = ["Angelo (IT)", "Baird McNutt (GB)", "Botto Giuseppe (IT)", "Colombo (IT)", "Drago (IT)", "E. Thomas (IT)", "Ferla (IT)", "Leomaster (IT)", "Libecco (BE)", "Marling & Evans (GB)"];
+const SIZE_TABLE = {
+  jacket: {
+    title: "Select your jacket size",
+    regular: ["30", "32", "34", "36", "38", "40", "42", "44", "46", "48", "50", "52", "54", "56", "58", "60"],
+    long: ["36L", "38L", "40L", "42L", "44L", "46L", "48L", "50L", "52L", "54L"],
+    short: ["34S", "36S", "38S", "40S", "42S", "44S", "46S", "48S", "50S", "52S", "54S", "56S"]
+  },
+  trousers: {
+    title: "Select your trousers size",
+    regular: ["24", "26", "28", "30", "32", "34", "36", "38", "40", "42", "44", "46", "48", "50", "52", "54"],
+    long: ["30L", "32L", "34L", "36L", "38L", "40L", "42L", "44L", "46L", "48L"],
+    short: ["28S", "30S", "32S", "34S", "36S", "38S", "40S", "42S", "44S", "46S", "48S", "50S"]
+  }
+};
+
+const state = {
+  section: "fabric",
+  selectedId: "f1",
+  slide: 0,
+  wearing: false,
+  q: "",
+  filters: {
+    sort: "default",
+    colors: new Set(),
+    seasons: new Set(),
+    designs: new Set(),
+    materials: new Set(),
+    mills: new Set()
+  },
+  jacket: {
+    style: "Milano",
+    items: [
+      { k: "Closure", v: "2 Button" },
+      { k: "Button", v: "Dark & Light Brown" },
+      { k: "Lining", v: "Full Lined" },
+      { k: "Lapel", v: "Notch" },
+      { k: "Monogram", v: "-" }
+    ]
+  },
+  trousers: {
+    style: "Slim Leg Single Pleat",
+    items: [
+      { k: "Waistband", v: "Standard button" },
+      { k: "Pocket", v: "Slanted" },
+      { k: "Pleat", v: "None" },
+      { k: "Hem Finishing", v: "Plain" },
+      { k: "Button", v: "Dark & Light Brown" }
+    ]
+  },
+  sizes: {
+    jacket: "",
+    trousers: "",
+    mode: "passport",
+    pending: ""
+  }
+};
+
+function money(v) {
+  return "$" + Math.round(v).toLocaleString();
+}
+
+function selectedFabric() {
+  return FABRICS.find((f) => f.id === state.selectedId) || FABRICS[0];
+}
+
+function selectedSlides() {
+  const f = selectedFabric();
+  const slides = Array.isArray(f.previewSlides) ? f.previewSlides.filter(Boolean) : [];
+  return slides.length ? slides : [ASSETS.suit, ASSETS.pant];
+}
+
+function stageImage() {
+  const f = selectedFabric();
+  if (state.wearing) return f.wearingImg || ASSETS.model;
+  const slides = selectedSlides();
+  const idx = ((state.slide % slides.length) + slides.length) % slides.length;
+  return slides[idx];
+}
+
+function updateTop() {
+  const f = selectedFabric();
+  document.getElementById("priceTotal").textContent = "Total " + money(f.price);
+  const finishBtn = document.getElementById("finishBtn");
+  finishBtn.classList.toggle("dark", state.section === "jacket" || state.section === "trousers");
+}
+
+function renderTabs() {
+  ["fabric", "jacket", "trousers", "waistcoat"].forEach((s) => {
+    const el = document.getElementById("tab-" + s);
+    if (el) el.classList.toggle("active", state.section === s);
+  });
+}
+
+function renderPreview() {
+  const slides = selectedSlides();
+  const max = slides.length || 1;
+  if (state.slide >= max) state.slide = 0;
+
+  const img = document.getElementById("previewImg");
+  img.src = stageImage();
+  img.classList.remove("fading");
+
+  const f = selectedFabric();
+  const currentSlideSrc = slides[state.slide] || ASSETS.suit;
+  document.getElementById("wearThumbImg").src = state.wearing ? currentSlideSrc : (f.wearingImg || ASSETS.model);
+
+  const dots = document.getElementById("dotsRow");
+  dots.innerHTML = "";
+  for (let i = 0; i < slides.length; i += 1) {
+    const dot = document.createElement("button");
+    dot.className = "dot" + (state.slide === i ? " active" : "");
+    dot.onclick = () => {
+      state.slide = i;
+      state.wearing = false;
+      renderPreview();
+    };
+    dots.appendChild(dot);
+  }
+
+  const multi = slides.length > 1;
+  document.getElementById("prevBtn").style.display = multi ? "block" : "none";
+  document.getElementById("nextBtn").style.display = multi ? "block" : "none";
+}
+
+function applyFilters(list) {
+  let out = [...list];
+  const q = state.q.trim().toLowerCase();
+  if (q) out = out.filter((f) => f.name.toLowerCase().includes(q));
+  if (state.filters.colors.size) out = out.filter((f) => state.filters.colors.has(f.colorKey));
+  if (state.filters.seasons.size) out = out.filter((f) => state.filters.seasons.has(f.season));
+  if (state.filters.designs.size) out = out.filter((f) => state.filters.designs.has(f.design));
+  if (state.filters.materials.size) out = out.filter((f) => f.materials.some((m) => state.filters.materials.has(m)));
+  if (state.filters.mills.size) out = out.filter((f) => state.filters.mills.has(f.mill));
+
+  if (state.filters.sort === "newest") out.reverse();
+  if (state.filters.sort === "priceHigh") out.sort((a, b) => b.price - a.price);
+  if (state.filters.sort === "priceLow") out.sort((a, b) => a.price - b.price);
+  return out;
+}
+
+function renderFabricList() {
+  const list = applyFilters(FABRICS);
+  const wrap = document.getElementById("fabricList");
+  wrap.innerHTML = "";
+
+  list.forEach((f) => {
+    const row = document.createElement("div");
+    row.className = "fabric-item" + (state.selectedId === f.id ? " selected" : "");
+
+    const thumb = document.createElement("div");
+    thumb.className = "fabric-thumb";
+    thumb.innerHTML = '<img src="' + (f.swatchImg || ASSETS.suit) + '" alt="' + f.name + '" />';
+    if (state.selectedId === f.id) {
+      const info = document.createElement("button");
+      info.className = "info-btn";
+      info.textContent = "i";
+      info.onclick = (e) => {
+        e.stopPropagation();
+        openInfo(f);
+      };
+      thumb.appendChild(info);
+    }
+
+    const meta = document.createElement("div");
+    meta.innerHTML = '<div class="fabric-name">' + f.name + '</div><div class="fabric-price">' + money(f.price) + "</div>";
+
+    const chev = document.createElement("div");
+    chev.className = "item-chev";
+    chev.textContent = ">";
+
+    row.appendChild(thumb);
+    row.appendChild(meta);
+    row.appendChild(chev);
+    row.onclick = () => {
+      state.selectedId = f.id;
+      state.slide = 0;
+      state.wearing = false;
+      renderAll();
+    };
+
+    wrap.appendChild(row);
+  });
+}
+
+function renderConfigList() {
+  const wrap = document.getElementById("configList");
+  wrap.innerHTML = "";
+  const source = state.section === "trousers" ? state.trousers : state.jacket;
+
+  const style = document.createElement("div");
+  style.className = "style-card";
+  style.innerHTML = '<div class="style-icon"></div><div><div class="style-label">Your Style</div><div class="style-name">' + source.style + '</div></div><div class="item-chev">></div>';
+  wrap.appendChild(style);
+
+  source.items.forEach((it) => {
+    const row = document.createElement("div");
+    row.className = "config-row";
+    row.innerHTML = '<div class="config-thumb"><img src="' + ASSETS.suit + '" alt="' + it.k + '" /></div><div><div class="config-name">' + it.k + '</div><div class="config-val">' + it.v + '</div></div><div class="item-chev">></div>';
+    wrap.appendChild(row);
+  });
+}
+
+function renderSide() {
+  const fabric = state.section === "fabric";
+  const config = state.section === "jacket" || state.section === "trousers" || state.section === "waistcoat";
+  document.getElementById("searchRow").style.display = fabric ? "flex" : "none";
+  document.getElementById("fabricList").style.display = fabric ? "block" : "none";
+  document.getElementById("configList").style.display = config ? "block" : "none";
+
+  if (fabric) renderFabricList();
+  if (config) renderConfigList();
+}
+
+function hasAllSizes() {
+  return Boolean(state.sizes.jacket && state.sizes.trousers);
+}
+
+function openSizePassport() {
+  state.sizes.mode = "passport";
+  state.sizes.pending = "";
+  renderSizePanel();
+  document.getElementById("sizeOverlay").classList.add("open");
+}
+
+function closeSizePassport() {
+  document.getElementById("sizeOverlay").classList.remove("open");
+}
+
+function onSizeOverlay(event) {
+  if (event.target.id === "sizeOverlay") closeSizePassport();
+}
+
+function enterSizeSelector(type) {
+  state.sizes.mode = type;
+  state.sizes.pending = state.sizes[type] || "";
+  renderSizePanel();
+}
+
+function pickSize(value) {
+  state.sizes.pending = value;
+  renderSizePanel();
+}
+
+function nextSizeStep() {
+  if (!state.sizes.pending) return;
+  const type = state.sizes.mode;
+  state.sizes[type] = state.sizes.pending;
+  state.sizes.mode = "passport";
+  state.sizes.pending = "";
+  renderSizePanel();
+  renderSummary();
+}
+
+function confirmSizePassport() {
+  if (hasAllSizes()) {
+    closeSizePassport();
+  }
+}
+
+function renderSizePanel() {
+  const body = document.getElementById("sizeBody");
+  const foot = document.getElementById("sizeFoot");
+  const mode = state.sizes.mode;
+  const sumJacketPreview = document.getElementById("sumPreviewImg");
+  const sumTrousersPreview = document.getElementById("sumTrousersPreview");
+  if (sumJacketPreview) sumJacketPreview.src = ASSETS.suit;
+  if (sumTrousersPreview) sumTrousersPreview.src = ASSETS.pant;
+
+  if (mode === "passport") {
+    const jacketDone = Boolean(state.sizes.jacket);
+    const trouserDone = Boolean(state.sizes.trousers);
+
+    body.innerHTML = ""
+      + '<div class="size-title">Your Size Passport</div>'
+      + '<div class="size-sub">Already have saved sizes? <strong>Log in</strong></div>'
+      + '<div class="passport-block">'
+      + '  <div class="passport-label">Jacket</div>'
+      + "  <button class=\"passport-card\" onclick=\"enterSizeSelector('jacket')\">"
+      + "    <div><div class=\"passport-main\">" + (jacketDone ? ("Size " + state.sizes.jacket) : "Add jacket size") + "</div>"
+      + "    <div class=\"passport-sub\">" + (jacketDone ? "Created Online just now" : "") + "</div></div>"
+      + "    <span class=\"" + (jacketDone ? "passport-check" : "passport-add") + "\">" + (jacketDone ? "&#10003;" : "+") + "</span>"
+      + "  </button>"
+      + "</div>"
+      + '<div class="passport-block">'
+      + '  <div class="passport-label">Trousers</div>'
+      + "  <button class=\"passport-card\" onclick=\"enterSizeSelector('trousers')\">"
+      + "    <div><div class=\"passport-main\">" + (trouserDone ? ("Size " + state.sizes.trousers) : "Add trousers size") + "</div>"
+      + "    <div class=\"passport-sub\">" + (trouserDone ? "Created Online just now" : "") + "</div></div>"
+      + "    <span class=\"" + (trouserDone ? "passport-check" : "passport-add") + "\">" + (trouserDone ? "&#10003;" : "+") + "</span>"
+      + "  </button>"
+      + "</div>"
+      + '<div class="size-help">Need help? <strong>Get measured in-store</strong></div>';
+
+    foot.innerHTML = '<button class="size-confirm" onclick="confirmSizePassport()">' + (hasAllSizes() ? "Checkout" : "Confirm") + "</button>";
+    return;
+  }
+
+  const table = SIZE_TABLE[mode];
+  const selectedNow = state.sizes.pending ? ("Selected size: " + state.sizes.pending) : "Pick one size to continue";
+  const makeCol = (values) => {
+    return "<div class=\"size-col\">"
+      + values.map((v) => "<button class=\"size-opt" + (state.sizes.pending === v ? " active" : "") + "\" onclick=\"pickSize('" + v + "')\">" + v + "</button>").join("")
+      + "</div>";
+  };
+
+  body.innerHTML = ""
+    + '<div class="size-title">' + table.title + "</div>"
+    + '<div class="size-sub">' + selectedNow + "</div>"
+    + '<div class="selector-head">'
+    + '  <div><strong>Regular</strong><span>5.5 - 6.1"</span></div>'
+    + '  <div><strong>Long</strong><span>&gt; 6.1"</span></div>'
+    + '  <div><strong>Short</strong><span>&lt; 5.5"</span></div>'
+    + "</div>"
+    + '<div class="selector-grid">'
+    + makeCol(table.regular)
+    + makeCol(table.long)
+    + makeCol(table.short)
+    + "</div>";
+
+  foot.innerHTML = ""
+    + '<div class="size-foot-row">'
+    + '  <button class="size-ghost" type="button">Size guide</button>'
+    + '  <button class="size-next" type="button" ' + (state.sizes.pending ? "" : "disabled") + ' onclick="nextSizeStep()">Next</button>'
+    + "</div>";
+}
+
+function renderSummary() {
+  const f = selectedFabric();
+  document.getElementById("sumPreviewImg").src = ASSETS.suit;
+  document.getElementById("sumTrousersPreview").src = ASSETS.pant;
+  document.getElementById("sumTotal").textContent = money(f.price);
+
+  const jacketWrap = document.getElementById("sumJacketItems");
+  const trousersWrap = document.getElementById("sumTrouserItems");
+  jacketWrap.innerHTML = "";
+  trousersWrap.innerHTML = "";
+
+  state.jacket.items.slice(0, 4).forEach((it) => {
+    const row = document.createElement("div");
+    row.className = "sum-item";
+    row.innerHTML = '<div class="sum-thumb"><img src="' + ASSETS.suit + '" alt="' + it.k + '" /></div><div><div class="sum-label">' + it.k + '</div><div class="sum-value">' + it.v + "</div></div>";
+    jacketWrap.appendChild(row);
+  });
+
+  state.trousers.items.slice(0, 4).forEach((it) => {
+    const row = document.createElement("div");
+    row.className = "sum-item";
+    row.innerHTML = '<div class="sum-thumb"><img src="' + ASSETS.pant + '" alt="' + it.k + '" /></div><div><div class="sum-label">' + it.k + '</div><div class="sum-value">' + it.v + "</div></div>";
+    trousersWrap.appendChild(row);
+  });
+
+  const passJacket = document.getElementById("sumPassportJacket");
+  const passTrousers = document.getElementById("sumPassportTrousers");
+  if (passJacket) {
+    passJacket.textContent = state.sizes.jacket ? ("Size " + state.sizes.jacket) : "No size selected yet";
+    passJacket.classList.toggle("done", Boolean(state.sizes.jacket));
+  }
+  if (passTrousers) {
+    passTrousers.textContent = state.sizes.trousers ? ("Size " + state.sizes.trousers) : "No size selected yet";
+    passTrousers.classList.toggle("done", Boolean(state.sizes.trousers));
+  }
+
+  const sizeBtn = document.getElementById("selectSizesBtn");
+  if (sizeBtn) sizeBtn.textContent = hasAllSizes() ? "Checkout" : "Select sizes";
+}
+
+function renderAll() {
+  updateTop();
+  renderTabs();
+
+  const summary = state.section === "summary";
+  document.getElementById("mainShell").style.display = summary ? "none" : "flex";
+  document.getElementById("summaryPage").style.display = summary ? "block" : "none";
+
+  if (summary) {
+    renderSummary();
+    return;
+  }
+
+  renderPreview();
+  renderSide();
+}
+
+function switchSection(section) {
+  state.section = section;
+  state.slide = 0;
+  state.wearing = false;
+  renderAll();
+}
+
+function goSummary() {
+  state.section = "summary";
+  renderAll();
+}
+
+function changeSlide(dir) {
+  const slides = selectedSlides();
+  const total = slides.length || 1;
+  state.slide = (state.slide + dir + total) % total;
+  state.wearing = false;
+  renderPreview();
+}
+
+function toggleWearing() {
+  state.wearing = !state.wearing;
+  renderPreview();
+}
+
+function onSearch() {
+  state.q = document.getElementById("searchInput").value || "";
+  if (state.section === "fabric") renderFabricList();
+}
+
+function openInfo(f) {
+  document.getElementById("infoTitle").textContent = f.name;
+  document.getElementById("infoText").textContent = "Season: " + f.season + " | Design: " + f.design + " | Materials: " + f.materials.join(", ") + " | Mill: " + f.mill;
+  document.getElementById("infoModal").classList.add("open");
+}
+
+function closeInfo() {
+  document.getElementById("infoModal").classList.remove("open");
+}
+
+function onInfoOverlay(event) {
+  if (event.target.id === "infoModal") closeInfo();
+}
+
+function updateFilterBadge() {
+  const count = state.filters.colors.size + state.filters.seasons.size + state.filters.designs.size + state.filters.materials.size + state.filters.mills.size;
+  const badge = document.getElementById("filterBadge");
+  badge.hidden = count === 0;
+  badge.textContent = String(count);
+}
+
+function makeGroup(title, body) {
+  const group = document.createElement("div");
+  group.className = "fgroup";
+
+  const head = document.createElement("div");
+  head.className = "fhead";
+  head.innerHTML = '<span class="fhead-title">' + title + "</span><span>-</span>";
+  head.onclick = () => {
+    group.classList.toggle("collapsed");
+    head.lastElementChild.textContent = group.classList.contains("collapsed") ? "+" : "-";
+  };
+
+  const wrap = document.createElement("div");
+  wrap.className = "fbody";
+  wrap.appendChild(body);
+
+  group.appendChild(head);
+  group.appendChild(wrap);
+  return group;
+}
+
+function makeSortUI() {
+  const wrap = document.createElement("div");
+  const opts = [
+    { k: "default", l: "Default" },
+    { k: "newest", l: "Newest" },
+    { k: "priceHigh", l: "Price: High - Low" },
+    { k: "priceLow", l: "Price: Low - High" }
+  ];
+
+  opts.forEach((o) => {
+    const label = document.createElement("label");
+    label.className = "opt";
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "sort";
+    input.checked = state.filters.sort === o.k;
+    input.onchange = () => {
+      state.filters.sort = o.k;
+      renderFabricList();
+    };
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(o.l));
+    wrap.appendChild(label);
+  });
+
+  return wrap;
+}
+
+function makeCheckUI(values, set) {
+  const wrap = document.createElement("div");
+  values.forEach((value) => {
+    const label = document.createElement("label");
+    label.className = "opt";
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.checked = set.has(value);
+    input.onchange = () => {
+      if (input.checked) set.add(value);
+      else set.delete(value);
+      renderFabricList();
+      updateFilterBadge();
+    };
+    label.appendChild(input);
+    label.appendChild(document.createTextNode(value));
+    wrap.appendChild(label);
+  });
+  return wrap;
+}
+
+function makeColorUI() {
+  const wrap = document.createElement("div");
+  wrap.className = "colors";
+
+  COLORS.forEach((c) => {
+    const label = document.createElement("label");
+    label.className = "color-opt";
+    const input = document.createElement("input");
+    input.type = "checkbox";
+    input.checked = state.filters.colors.has(c.k);
+    input.onchange = () => {
+      if (input.checked) state.filters.colors.add(c.k);
+      else state.filters.colors.delete(c.k);
+      renderFabricList();
+      updateFilterBadge();
+    };
+
+    const dot = document.createElement("span");
+    dot.className = "color-dot";
+    dot.style.background = c.hex;
+
+    label.appendChild(input);
+    label.appendChild(dot);
+    label.appendChild(document.createTextNode(c.k));
+    wrap.appendChild(label);
+  });
+
+  return wrap;
+}
+
+function renderFilterPanel() {
+  const body = document.getElementById("filterBody");
+  body.innerHTML = "";
+  body.appendChild(makeGroup("Sort by", makeSortUI()));
+  body.appendChild(makeGroup("Color", makeColorUI()));
+  body.appendChild(makeGroup("Season", makeCheckUI(SEASONS, state.filters.seasons)));
+  body.appendChild(makeGroup("Design", makeCheckUI(DESIGNS, state.filters.designs)));
+  body.appendChild(makeGroup("Material", makeCheckUI(MATERIALS, state.filters.materials)));
+  body.appendChild(makeGroup("Mill", makeCheckUI(MILLS, state.filters.mills)));
+}
+
+function openFilter() {
+  renderFilterPanel();
+  document.getElementById("filterOverlay").classList.add("open");
+}
+
+function closeFilter() {
+  document.getElementById("filterOverlay").classList.remove("open");
+}
+
+function onOverlayClick(event) {
+  if (event.target.id === "filterOverlay") closeFilter();
+}
+
+function clearFilters() {
+  state.filters = {
+    sort: "default",
+    colors: new Set(),
+    seasons: new Set(),
+    designs: new Set(),
+    materials: new Set(),
+    mills: new Set()
+  };
+  renderFilterPanel();
+  renderFabricList();
+  updateFilterBadge();
+}
+
+(function init() {
+  const section = new URLSearchParams(location.search).get("section");
+  if (["fabric", "summary"].includes(section)) {
+    state.section = section;
+  }
+
+  updateFilterBadge();
+  renderAll();
+})();
+</script>
+<script>
+  (function () {
+    if (window.__previewZoomBound) return;
+    window.__previewZoomBound = true;
+
+    var zoom = 1;
+    var zoomMin = 1;
+    var zoomMax = 2.8;
+    var previewImg = null;
+    var previewWrap = null;
+    var cursor = null;
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function ensureCursor() {
+      cursor = document.getElementById("hoverZoomCursor");
+      if (!cursor) {
+        cursor = document.createElement("div");
+        cursor.id = "hoverZoomCursor";
+        cursor.className = "hover-zoom-cursor";
+        cursor.setAttribute("aria-hidden", "true");
+        cursor.innerHTML = "&#8599;";
+        document.body.appendChild(cursor);
+      }
+    }
+
+    function injectFallbackStyle() {
+      if (document.getElementById("hoverZoomEnhanceStyle")) return;
+      var style = document.createElement("style");
+      style.id = "hoverZoomEnhanceStyle";
+      style.textContent = [
+        ".preview-img{transition:opacity .2s ease,transform .22s ease;transform-origin:50% 50%;will-change:transform;}",
+        ".hover-zoom-cursor{position:fixed;left:0;top:0;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.92);border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;color:#444;font-size:18px;line-height:1;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.86);transition:opacity .14s ease,transform .14s ease;z-index:3000;}",
+        ".hover-zoom-cursor.show{opacity:1;transform:translate(-50%,-50%) scale(1);}"
+      ].join("");
+      document.head.appendChild(style);
+    }
+
+    function getRenderedImageRect() {
+      if (!previewImg || !previewWrap) return null;
+      var wrapRect = previewWrap.getBoundingClientRect();
+      var nw = previewImg.naturalWidth || 0;
+      var nh = previewImg.naturalHeight || 0;
+      if (!nw || !nh || !wrapRect.width || !wrapRect.height) return null;
+
+      var wrapRatio = wrapRect.width / wrapRect.height;
+      var imgRatio = nw / nh;
+      var drawWidth = 0;
+      var drawHeight = 0;
+      var offsetX = 0;
+      var offsetY = 0;
+
+      if (imgRatio > wrapRatio) {
+        drawWidth = wrapRect.width;
+        drawHeight = drawWidth / imgRatio;
+        offsetY = (wrapRect.height - drawHeight) / 2;
+      } else {
+        drawHeight = wrapRect.height;
+        drawWidth = drawHeight * imgRatio;
+        offsetX = (wrapRect.width - drawWidth) / 2;
+      }
+
+      return {
+        left: wrapRect.left + offsetX,
+        top: wrapRect.top + offsetY,
+        right: wrapRect.left + offsetX + drawWidth,
+        bottom: wrapRect.top + offsetY + drawHeight
+      };
+    }
+
+    function isOverProduct(clientX, clientY) {
+      var rect = getRenderedImageRect();
+      if (!rect) return false;
+      return clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+    }
+
+    function showCursor(clientX, clientY) {
+      if (!cursor) return;
+      cursor.style.left = clientX + "px";
+      cursor.style.top = (clientY + 18) + "px";
+      cursor.classList.add("show");
+    }
+
+    function hideCursor() {
+      if (!cursor) return;
+      cursor.classList.remove("show");
+    }
+
+    function applyZoom() {
+      if (!previewImg) return;
+      previewImg.style.transform = "scale(" + zoom.toFixed(3) + ")";
+    }
+
+    function resetZoom() {
+      zoom = 1;
+      applyZoom();
+      hideCursor();
+    }
+
+    function bindPreviewInteractions() {
+      if (!previewWrap || !previewImg) return;
+
+      previewWrap.addEventListener("mousemove", function (event) {
+        if (isOverProduct(event.clientX, event.clientY)) {
+          showCursor(event.clientX, event.clientY);
+        } else {
+          hideCursor();
+        }
+      });
+
+      previewWrap.addEventListener("mouseleave", function () {
+        hideCursor();
+      });
+
+      previewWrap.addEventListener(
+        "wheel",
+        function (event) {
+          if (!isOverProduct(event.clientX, event.clientY)) return;
+          event.preventDefault();
+          var direction = event.deltaY < 0 ? 1 : -1;
+          zoom = clamp(zoom + direction * 0.1, zoomMin, zoomMax);
+          applyZoom();
+          showCursor(event.clientX, event.clientY);
+        },
+        { passive: false }
+      );
+
+      previewImg.addEventListener("load", function () {
+        if (zoom <= zoomMin) {
+          applyZoom();
+        }
+      });
+    }
+
+    function patchRenderPreviewReset() {
+      if (typeof window.renderPreview !== "function") return;
+      var originalRenderPreview = window.renderPreview;
+      window.renderPreview = function () {
+        var result = originalRenderPreview.apply(this, arguments);
+        resetZoom();
+        return result;
+      };
+    }
+
+    function setup() {
+      previewImg = document.getElementById("previewImg");
+      if (!previewImg) return;
+      previewWrap = document.getElementById("previewWrap") || previewImg.closest(".preview-wrap") || previewImg.parentElement;
+      if (!previewWrap) return;
+
+      injectFallbackStyle();
+      ensureCursor();
+      bindPreviewInteractions();
+      patchRenderPreviewReset();
+      applyZoom();
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", setup);
+    } else {
+      setup();
+    }
+  })();
+</script>
+</body>
+</html>
+
