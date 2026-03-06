@@ -107,11 +107,38 @@ img {
   max-width: min(72%, 640px);
   max-height: calc(100% - 4px);
   object-fit: contain;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.22s ease;
+  transform-origin: 50% 50%;
+  will-change: transform;
 }
 
 .preview-img.fading {
   opacity: 0;
+}
+
+.hover-zoom-cursor {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid #d8d8d8;
+  background: rgba(245, 245, 245, 0.95);
+  color: #606060;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.8);
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  z-index: 5;
+}
+
+.hover-zoom-cursor.show {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
 }
 
 .nav-arrow {
@@ -1769,6 +1796,172 @@ function clearFilters() {
   updateFilterBadge();
   renderAll();
 })();
+</script>
+<script>
+  (function () {
+    if (window.__previewZoomBound) return;
+    window.__previewZoomBound = true;
+
+    var zoom = 1;
+    var zoomMin = 1;
+    var zoomMax = 2.8;
+    var previewImg = null;
+    var previewWrap = null;
+    var cursor = null;
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function ensureCursor() {
+      cursor = document.getElementById("hoverZoomCursor");
+      if (!cursor) {
+        cursor = document.createElement("div");
+        cursor.id = "hoverZoomCursor";
+        cursor.className = "hover-zoom-cursor";
+        cursor.setAttribute("aria-hidden", "true");
+        cursor.innerHTML = "&#8599;";
+        document.body.appendChild(cursor);
+      }
+    }
+
+    function injectFallbackStyle() {
+      if (document.getElementById("hoverZoomEnhanceStyle")) return;
+      var style = document.createElement("style");
+      style.id = "hoverZoomEnhanceStyle";
+      style.textContent = [
+        ".preview-img{transition:opacity .2s ease,transform .22s ease;transform-origin:50% 50%;will-change:transform;}",
+        ".hover-zoom-cursor{position:fixed;left:0;top:0;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.92);border:1px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;color:#444;font-size:18px;line-height:1;pointer-events:none;opacity:0;transform:translate(-50%,-50%) scale(.86);transition:opacity .14s ease,transform .14s ease;z-index:3000;}",
+        ".hover-zoom-cursor.show{opacity:1;transform:translate(-50%,-50%) scale(1);}"
+      ].join("");
+      document.head.appendChild(style);
+    }
+
+    function getRenderedImageRect() {
+      if (!previewImg || !previewWrap) return null;
+      var wrapRect = previewWrap.getBoundingClientRect();
+      var nw = previewImg.naturalWidth || 0;
+      var nh = previewImg.naturalHeight || 0;
+      if (!nw || !nh || !wrapRect.width || !wrapRect.height) return null;
+
+      var wrapRatio = wrapRect.width / wrapRect.height;
+      var imgRatio = nw / nh;
+      var drawWidth = 0;
+      var drawHeight = 0;
+      var offsetX = 0;
+      var offsetY = 0;
+
+      if (imgRatio > wrapRatio) {
+        drawWidth = wrapRect.width;
+        drawHeight = drawWidth / imgRatio;
+        offsetY = (wrapRect.height - drawHeight) / 2;
+      } else {
+        drawHeight = wrapRect.height;
+        drawWidth = drawHeight * imgRatio;
+        offsetX = (wrapRect.width - drawWidth) / 2;
+      }
+
+      return {
+        left: wrapRect.left + offsetX,
+        top: wrapRect.top + offsetY,
+        right: wrapRect.left + offsetX + drawWidth,
+        bottom: wrapRect.top + offsetY + drawHeight
+      };
+    }
+
+    function isOverProduct(clientX, clientY) {
+      var rect = getRenderedImageRect();
+      if (!rect) return false;
+      return clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+    }
+
+    function showCursor(clientX, clientY) {
+      if (!cursor) return;
+      cursor.style.left = clientX + "px";
+      cursor.style.top = (clientY + 18) + "px";
+      cursor.classList.add("show");
+    }
+
+    function hideCursor() {
+      if (!cursor) return;
+      cursor.classList.remove("show");
+    }
+
+    function applyZoom() {
+      if (!previewImg) return;
+      previewImg.style.transform = "scale(" + zoom.toFixed(3) + ")";
+    }
+
+    function resetZoom() {
+      zoom = 1;
+      applyZoom();
+      hideCursor();
+    }
+
+    function bindPreviewInteractions() {
+      if (!previewWrap || !previewImg) return;
+
+      previewWrap.addEventListener("mousemove", function (event) {
+        if (isOverProduct(event.clientX, event.clientY)) {
+          showCursor(event.clientX, event.clientY);
+        } else {
+          hideCursor();
+        }
+      });
+
+      previewWrap.addEventListener("mouseleave", function () {
+        hideCursor();
+      });
+
+      previewWrap.addEventListener(
+        "wheel",
+        function (event) {
+          if (!isOverProduct(event.clientX, event.clientY)) return;
+          event.preventDefault();
+          var direction = event.deltaY < 0 ? 1 : -1;
+          zoom = clamp(zoom + direction * 0.1, zoomMin, zoomMax);
+          applyZoom();
+          showCursor(event.clientX, event.clientY);
+        },
+        { passive: false }
+      );
+
+      previewImg.addEventListener("load", function () {
+        if (zoom <= zoomMin) {
+          applyZoom();
+        }
+      });
+    }
+
+    function patchRenderPreviewReset() {
+      if (typeof window.renderPreview !== "function") return;
+      var originalRenderPreview = window.renderPreview;
+      window.renderPreview = function () {
+        var result = originalRenderPreview.apply(this, arguments);
+        resetZoom();
+        return result;
+      };
+    }
+
+    function setup() {
+      previewImg = document.getElementById("previewImg");
+      if (!previewImg) return;
+      previewWrap = document.getElementById("previewWrap") || previewImg.closest(".preview-wrap") || previewImg.parentElement;
+      if (!previewWrap) return;
+
+      injectFallbackStyle();
+      ensureCursor();
+      bindPreviewInteractions();
+      patchRenderPreviewReset();
+      applyZoom();
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", setup);
+    } else {
+      setup();
+    }
+  })();
 </script>
 </body>
 </html>
